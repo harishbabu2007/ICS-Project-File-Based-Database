@@ -1,11 +1,27 @@
 #include<stdio.h>
-#include"logging/logging.h"
+#include"utils/logging.h"
 
 
 int main(){
-    logger("Hello world\n", LOG_INFO);
-    logger("Hello world\n", LOG_SUCCESS);
-    logger("Hello world\n", LOG_ERROR);
-    logger("Hello world\n", LOG_WARNING);
+    logger("Test info\n", LOG_INFO);
+    logger("Test success\n", LOG_SUCCESS);
+    logger("Test error\n", LOG_ERROR);
+    logger("Test warning\n", LOG_WARNING);
+
+    char* columns[2] = {"Name", "Email"};
+    char* rows[4] = {
+        "John Doe", "b25xx10xx@iitj.ac.in",
+        "Ben Dover", "b24yy101x@iitj.ac.in",
+    };
+
+    log_table_t *sample_table = new_log_table(
+        2,
+        2,
+        columns,
+        rows
+    );
+
+    log_table(sample_table);
+
     return 0;
 }
