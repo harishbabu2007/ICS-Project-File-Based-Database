@@ -1,6 +1,11 @@
 #include<stdio.h>
+#include"logging/logging.h"
+
 
 int main(){
-    printf("Hello world\n");
+    logger("Hello world\n", LOG_INFO);
+    logger("Hello world\n", LOG_SUCCESS);
+    logger("Hello world\n", LOG_ERROR);
+    logger("Hello world\n", LOG_WARNING);
     return 0;
 }
