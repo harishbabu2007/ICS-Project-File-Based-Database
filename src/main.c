@@ -1,8 +1,9 @@
 #include<stdio.h>
 #include"utils/logging.h"
+#include<engine/fileops.h>
 
 
-int main(){
+void sample_testing(){
     logger("Test info\n", LOG_INFO);
     logger("Test success\n", LOG_SUCCESS);
     logger("Test error\n", LOG_ERROR);
@@ -22,6 +23,11 @@ int main(){
     );
 
     log_table(sample_table);
+}
+
+int main(){
+    play_around();
+    // sample_testing();
 
     return 0;
 }

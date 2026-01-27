@@ -37,5 +37,9 @@ dirs:
 clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR)
 
+run:
+	@./bin/${EXEC_NAME}
 
+showdat:
+	@hexdump data/data.bin
 
