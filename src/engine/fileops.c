@@ -20,21 +20,27 @@ FILE* get_open_file_buffer(char* file_name){
         // bin/../data/yourfile.bin
         snprintf(full_path, size, "%s/../data/%s", dir, file_name);
 
-        file_buffer = fopen(full_path, "rb+");
+        file_buffer = fopen(full_path, "wb+");
     }
 
     free(exe_path);
-    free(full_path);
+    free(full_path);    
+
+    if (file_buffer == NULL) logger("[ERR] file not created\n", LOG_ERROR);
 
     return file_buffer;
 }
 
 void play_around(){
     FILE* file = get_open_file_buffer("data.bin");
-    
 
-    int arr[2] = {15,16};
-    fwrite(&arr, sizeof(int) * 2, 2, file);
+    if (file){
+        int arr[2] = {15,16};
+        fwrite(&arr, sizeof(int), 2, file);
+        logger("[written]\n", LOG_SUCCESS);
 
-    fclose(file);
+        fclose(file);
+    } else {
+        logger("[ERR] file doesn't exist\n", LOG_ERROR);
+    }
 }

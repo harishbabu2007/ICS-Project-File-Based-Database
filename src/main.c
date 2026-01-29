@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include"utils/logging.h"
-#include<engine/fileops.h>
+#include"engine/TableCreate.h"
 
 
 void sample_testing(){
@@ -25,9 +25,42 @@ void sample_testing(){
     log_table(sample_table);
 }
 
-int main(){
-    play_around();
-    // sample_testing();
+void testing_engine(){
+    col_item_t id_col = {
+        .is_primary_key = true,
+        .col_id = 0,
+        .col_name = "ID",
+        .data_type = UNSIGNED_INT,
+    };
 
+    col_item_t name_col = {
+        .is_primary_key = false,
+        .col_id = 1,
+        .col_name = "name",
+        .data_type = STRING,
+    };
+
+    col_item_t roll_col = {
+        .is_primary_key = false,
+        .col_id = 2,
+        .col_name = "Roll No",
+        .data_type = STRING,
+    };
+
+    col_item_t col_data[3] = {id_col, name_col, roll_col};
+
+    schema_t new_schema = {
+        .table_name = "Students",
+        .num_cols = 3,
+        .column_data = col_data,
+    };
+
+    create_new_table_schema(&new_schema);
+    logger("Successfull\n", LOG_SUCCESS);
+}
+
+int main(){
+    testing_engine();
+    // play_around();
     return 0;
 }

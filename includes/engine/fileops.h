@@ -8,6 +8,7 @@
 #include <libgen.h>
 #include <limits.h>
 #include <string.h>
+#include "utils/logging.h"
 
 #define PLATFORM "linux"
 

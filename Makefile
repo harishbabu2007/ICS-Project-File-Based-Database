@@ -2,6 +2,7 @@ SRC_DIR := src
 INC_DIR := includes
 OBJ_DIR := obj
 BIN_DIR := bin
+DATA_DIR := data
 EXEC_NAME := ics_dbms
 
 #compiler
@@ -31,11 +32,11 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 #make obj and bin dirs if they dont exist
 dirs:
-	mkdir -p $(OBJ_DIR) $(BIN_DIR)
+	mkdir -p $(OBJ_DIR) $(BIN_DIR) $(DATA_DIR)
 
 #deletes obj and bin dirs for a cleaner compilation
 clean:
-	rm -rf $(OBJ_DIR) $(BIN_DIR)
+	rm -rf $(OBJ_DIR) $(BIN_DIR) $(DATA_DIR)
 
 run:
 	@./bin/${EXEC_NAME}
