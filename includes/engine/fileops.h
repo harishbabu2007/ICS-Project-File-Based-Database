@@ -4,13 +4,16 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <libgen.h>
-#include <limits.h>
 #include <string.h>
-#include "utils/logging.h"
+#include <libgen.h>
 
-#define PLATFORM "linux"
+#if defined(__linux__)
+#include <unistd.h>
+#elif defined(__APPLE__)
+#include <mach-o/dyld.h>
+#include <limits.h>
+#endif
+#include "utils/logging.h"
 
 void play_around();
 
