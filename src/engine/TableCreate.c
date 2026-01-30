@@ -1,5 +1,22 @@
 #include"engine/TableCreate.h"
 
+size_t get_size_col_data_type(col_data_type_t data_type) {
+    switch (data_type) {
+        case INT:
+            return sizeof(int);
+        case UNSIGNED_INT:
+            return sizeof(UNSIGNED_INT);
+        case BOOLEAN:
+            return sizeof(bool);
+        case FLOATING_POINT:
+            return sizeof(float);
+        case DOUBLE_FLOATING_POINT:
+            return sizeof(double);
+        default:
+            return 0;
+    }
+}
+
 void create_new_table_schema(schema_t* table_schema) {
     // Get file stream to write;
 
@@ -32,10 +49,38 @@ void create_new_table_schema(schema_t* table_schema) {
     fwrite(&table_schema->total_col_names_length, sizeof(int), 1, schema_file);
 
     // COLUMN DATA
-    // for (int i=0; i<table_schema->num_cols; i++){
-        
-    // }
+
+    for (int i=0; i<table_schema->num_cols; i++){
+        fwrite(&table_schema->column_data[i].is_primary_key, sizeof(bool), 1, schema_file);
+        fwrite(&table_schema->column_data[i].data_type, sizeof(unsigned char), 1, schema_file);
+        fwrite(&table_schema->column_data[i].len_col_name, sizeof(unsigned char), 1, schema_file);
+    }
 
 
+    // OFFSET TABLE
+
+    int _data_offset = 0;
+    for (int i=0; i<table_schema->num_cols; i++){
+        fwrite(&table_schema->column_data[i].col_id, sizeof(unsigned char), 1, schema_file);
+        fwrite(&_data_offset, sizeof(unsigned char), 1, schema_file);
+
+        _data_offset += (table_schema->column_data[i].is_string) ? table_schema->column_data[i].max_str_len
+         : (int)get_size_col_data_type(table_schema->column_data[i].data_type);
+    }
+
+
+    // NAMES TABLE
+    
+    // write 1+len_table_name bytes, for table name
+    fwrite(&table_schema->len_table_name, sizeof(unsigned char), 1, schema_file);
+    fwrite(&table_schema->table_name, sizeof(char), table_schema->len_table_name, schema_file);
+
+    for (int i=0; i<table_schema->num_cols; i++){
+        fwrite(&table_schema->column_data[i].col_id, sizeof(unsigned char), 1, schema_file);
+        fwrite(&table_schema->column_data[i].col_name, sizeof(char), table_schema->column_data[i].len_col_name, schema_file);
+    }
+
+
+    // CLOSE FILE buffer
     fclose(schema_file);
 }

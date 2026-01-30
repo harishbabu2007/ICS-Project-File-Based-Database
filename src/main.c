@@ -38,6 +38,7 @@ void testing_engine(){
         .col_id = 1,
         .col_name = "name",
         .data_type = STRING,
+        .is_string = true,
     };
 
     col_item_t roll_col = {
@@ -45,6 +46,7 @@ void testing_engine(){
         .col_id = 2,
         .col_name = "Roll No",
         .data_type = STRING,
+        .is_string = true,
     };
 
     col_item_t col_data[3] = {id_col, name_col, roll_col};
