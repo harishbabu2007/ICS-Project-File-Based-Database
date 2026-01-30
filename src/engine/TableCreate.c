@@ -1,21 +1,5 @@
 #include"engine/TableCreate.h"
-
-size_t get_size_col_data_type(col_data_type_t data_type) {
-    switch (data_type) {
-        case INT:
-            return sizeof(int);
-        case UNSIGNED_INT:
-            return sizeof(UNSIGNED_INT);
-        case BOOLEAN:
-            return sizeof(bool);
-        case FLOATING_POINT:
-            return sizeof(float);
-        case DOUBLE_FLOATING_POINT:
-            return sizeof(double);
-        default:
-            return 0;
-    }
-}
+#include"utils/utils.h"
 
 void create_new_table_schema(schema_t* table_schema) {
     // Get file stream to write;

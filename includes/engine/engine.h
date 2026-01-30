@@ -1,6 +1,10 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
+#include<stdbool.h>
+#include"engine/fileops.h"
+
+
 typedef enum ColDataType {
     INT,
     UNSIGNED_INT,
@@ -31,5 +35,12 @@ typedef struct Schema {
     char *table_name;
     col_item_t* column_data;
 } schema_t;
+
+
+typedef struct RowData {
+    unsigned char col_id;
+    void* data;
+} row_data_t;
+
 
 #endif

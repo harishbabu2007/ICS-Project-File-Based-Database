@@ -52,13 +52,17 @@ void testing_engine(){
     col_item_t col_data[3] = {id_col, name_col, roll_col};
 
     schema_t new_schema = {
-        .table_name = "Students",
+        .table_name = "Studentsa",
         .num_cols = 3,
         .column_data = col_data,
     };
 
     create_new_table_schema(&new_schema);
-    logger("Successfull\n", LOG_SUCCESS);
+    logger("Successfully created schema\n", LOG_SUCCESS);
+
+    // some_sample row
+    row_data_t sample_id = {.col_id = 0, .data = 0};
+
 }
 
 int main(){
