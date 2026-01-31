@@ -23,7 +23,7 @@ void logger(char *buffer, log_status_t status){
 
 
 log_table_t* new_log_table(int num_rows, int num_cols, char **col_data, char **row_data){
-    log_table_t *table_data = (log_table_t *)malloc(sizeof(table_data)); 
+    log_table_t *table_data = (log_table_t *)malloc(sizeof(log_table_t)); 
     if (table_data == NULL) return NULL;
 
     table_data->num_rows = num_rows;
@@ -52,7 +52,8 @@ void draw_table_line(int num_cols, int col_spaces[]){
 void log_table(log_table_t *table_data) {
     int max_spacing = -1;
 
-    int* col_spaces = (int *)calloc(table_data->num_cols, sizeof(int));
+    // int* col_spaces = (int *)calloc(table_data->num_cols, sizeof(int));
+    int col_spaces[table_data->num_cols];
 
     // get max spacing for each column
     for (int i=0; i<table_data->num_cols; i++){
@@ -103,6 +104,6 @@ void log_table(log_table_t *table_data) {
     draw_table_line(table_data->num_cols, col_spaces);
 
     // some garbage collection
-    free_log_table(table_data);
-    free(col_spaces);
+    // free_log_table(table_data);
+    // free(col_spaces);
 }

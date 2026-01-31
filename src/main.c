@@ -23,6 +23,7 @@ void sample_testing(){
     );
 
     log_table(sample_table);
+    free(sample_table);
 }
 
 void testing_engine(){
@@ -66,6 +67,7 @@ void testing_engine(){
 }
 
 int main(){
-    testing_engine();
+    sample_testing();
+    // play_around();
     return 0;
 }
