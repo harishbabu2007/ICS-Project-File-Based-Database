@@ -23,6 +23,7 @@ void sample_testing(){
     );
 
     log_table(sample_table);
+    free(sample_table);
 }
 
 void testing_engine(){
@@ -61,12 +62,12 @@ void testing_engine(){
     logger("Successfully created schema\n", LOG_SUCCESS);
 
     // some_sample row
-    row_data_t sample_id = {.col_id = 0, .data = 0};
+    // row_data_t sample_id = {.col_id = 0, .data = 0};
 
 }
 
 int main(){
-    testing_engine();
+    sample_testing();
     // play_around();
     return 0;
 }
