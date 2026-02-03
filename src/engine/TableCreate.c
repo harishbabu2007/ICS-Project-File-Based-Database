@@ -7,71 +7,62 @@ void create_new_table_schema(schema_t* table_schema) {
     // TABLE HEADER
 
     // Max Table name size is 255
-    char schema_file_name[272];
-    strcpy(schema_file_name, table_schema->table_name);
-    strcat(schema_file_name, "_schema__data.bin");
-
-    table_schema->len_table_name = strlen(table_schema->table_name);
-    table_schema->num_rows = 0;
-    table_schema->total_col_names_length = 0;
+    char *schema_file_name = "Testschema.bin";
 
     FILE* schema_file = get_open_file_buffer(schema_file_name);
     
+    table_schema->num_rows = 0;
+
+    // TABLE_HEADER 9 bytes
     fwrite(&table_schema->num_rows, sizeof(int), 1, schema_file);
     fwrite(&table_schema->num_cols, sizeof(unsigned char), 1, schema_file);
-    // fwrite(&table_schema->len_table_name, sizeof(unsigned char), 1, schema_file);
 
     table_schema->total_row_len_inbytes = 0;
-
     for (int i=0; i<table_schema->num_cols; i++){
-        int len_name = strlen(
-            table_schema->column_data[i].col_name
-        );
-        table_schema->column_data[i].len_col_name = len_name;
-        table_schema->total_col_names_length += len_name;
-
         table_schema->total_row_len_inbytes += get_size_col_data_type(
             table_schema->column_data[i]
         );
     }
 
-    fwrite(&table_schema->total_col_names_length, sizeof(int), 1, schema_file);
-    fwrite(&table_schema->total_row_len_inbytes, sizeof(int), 1, schema_file);
+    fwrite(&table_schema->total_row_len_inbytes, sizeof(size_t), 1, schema_file);
 
-    // COLUMN DATA
 
+    // COL_DATA num_cols * 7 bytes
     for (int i=0; i<table_schema->num_cols; i++){
-        fwrite(&table_schema->column_data[i].is_primary_key, sizeof(bool), 1, schema_file);
-        fwrite(&table_schema->column_data[i].data_type, sizeof(unsigned char), 1, schema_file);
-        fwrite(&table_schema->column_data[i].len_col_name, sizeof(unsigned char), 1, schema_file);
+        fwrite(
+            &table_schema->column_data[i].is_primary_key,
+            sizeof(bool), 1, schema_file
+        );
+        fwrite(
+            &table_schema->column_data[i].data_type,
+            sizeof(col_data_type_t), 1, schema_file
+        );
+        fwrite(
+            &table_schema->column_data[i].is_string,
+            sizeof(bool), 1, schema_file
+        );
+        fwrite(
+            &table_schema->column_data[i].max_str_len,
+            sizeof(size_t), 1, schema_file
+        );
     }
 
+    // OFFSET TABLE num_cols * 4 bytes
 
-    // OFFSET TABLE
-
-    int _data_offset = 0;
+    size_t offset = 0;
     for (int i=0; i<table_schema->num_cols; i++){
-        fwrite(&table_schema->column_data[i].col_id, sizeof(unsigned char), 1, schema_file);
-        fwrite(&_data_offset, sizeof(unsigned char), 1, schema_file);
-
-        _data_offset += get_size_col_data_type(
+        fwrite(&offset, sizeof(int), 1, schema_file);
+        offset += get_size_col_data_type(
             table_schema->column_data[i]
         );
     }
 
-
-    // NAMES TABLE
-    
-    // write 1+len_table_name bytes, for table name
-    fwrite(&table_schema->len_table_name, sizeof(unsigned char), 1, schema_file);
-    fwrite(&table_schema->table_name, sizeof(char), table_schema->len_table_name, schema_file);
+    // STRING DATA (1+num_cols)*255 bytes
+    fwrite(&table_schema->table_name, sizeof(char), MAX_COL_LEN, schema_file);    
 
     for (int i=0; i<table_schema->num_cols; i++){
-        fwrite(&table_schema->column_data[i].col_id, sizeof(unsigned char), 1, schema_file);
-        fwrite(&table_schema->column_data[i].col_name, sizeof(char), table_schema->column_data[i].len_col_name, schema_file);
+        fwrite(&table_schema->column_data[i].col_name, sizeof(char), MAX_COL_LEN, schema_file);
     }
-
-
-    // CLOSE FILE buffer
+    
     fclose(schema_file);
 }

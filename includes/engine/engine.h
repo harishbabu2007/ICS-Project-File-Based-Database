@@ -4,6 +4,8 @@
 #include<stdbool.h>
 #include"engine/fileops.h"
 
+#define MAX_COL_LEN 255
+
 
 typedef enum ColDataType {
     INT,
@@ -19,21 +21,18 @@ typedef enum ColDataType {
 typedef struct ColItem {
     bool is_primary_key;
     unsigned char col_id;
-    unsigned char len_col_name;
     col_data_type_t data_type;
-    char* col_name;
+    char col_name[MAX_COL_LEN];
     bool is_string;
-    int max_str_len;
+    size_t max_str_len;
 } col_item_t;
 
 
 typedef struct Schema {
-    unsigned char len_table_name;
     unsigned char num_cols;
     int num_rows;
-    int total_col_names_length;
     size_t total_row_len_inbytes;
-    char *table_name;
+    char table_name[MAX_COL_LEN];
     col_item_t* column_data;
 } schema_t;
 

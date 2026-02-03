@@ -46,7 +46,7 @@ void testing_engine(){
     col_item_t name_col = {
         .is_primary_key = false,
         .col_id = 2,
-        .col_name = "name",
+        .col_name = "One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches",
         .data_type = STRING,
         .is_string = true,
         .max_str_len = 255
@@ -55,7 +55,7 @@ void testing_engine(){
     col_item_t col_data[3] = {id_col, roll_col, name_col};
 
     schema_t new_schema = {
-        .table_name = "Studentsa",
+        .table_name = "STudents",
         .num_cols = 3,
         .column_data = col_data,
     };
