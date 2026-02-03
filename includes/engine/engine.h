@@ -32,6 +32,7 @@ typedef struct Schema {
     unsigned char num_cols;
     int num_rows;
     int total_col_names_length;
+    size_t total_row_len_inbytes;
     char *table_name;
     col_item_t* column_data;
 } schema_t;

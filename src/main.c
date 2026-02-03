@@ -34,23 +34,25 @@ void testing_engine(){
         .data_type = UNSIGNED_INT,
     };
 
-    col_item_t name_col = {
+    col_item_t roll_col = {
         .is_primary_key = false,
         .col_id = 1,
+        .col_name = "RollNo",
+        .is_string = true,
+        .max_str_len = 10,
+        .data_type = STRING,
+    };
+
+    col_item_t name_col = {
+        .is_primary_key = false,
+        .col_id = 2,
         .col_name = "name",
         .data_type = STRING,
         .is_string = true,
+        .max_str_len = 255
     };
 
-    col_item_t roll_col = {
-        .is_primary_key = false,
-        .col_id = 2,
-        .col_name = "Roll No",
-        .data_type = STRING,
-        .is_string = true,
-    };
-
-    col_item_t col_data[3] = {id_col, name_col, roll_col};
+    col_item_t col_data[3] = {id_col, roll_col, name_col};
 
     schema_t new_schema = {
         .table_name = "Studentsa",
@@ -67,7 +69,6 @@ void testing_engine(){
 }
 
 int main(){
-    sample_testing();
-    // play_around();
+    testing_engine();
     return 0;
 }

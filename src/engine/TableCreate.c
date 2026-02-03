@@ -21,16 +21,22 @@ void create_new_table_schema(schema_t* table_schema) {
     fwrite(&table_schema->num_cols, sizeof(unsigned char), 1, schema_file);
     // fwrite(&table_schema->len_table_name, sizeof(unsigned char), 1, schema_file);
 
+    table_schema->total_row_len_inbytes = 0;
+
     for (int i=0; i<table_schema->num_cols; i++){
         int len_name = strlen(
             table_schema->column_data[i].col_name
         );
-
-        table_schema->total_col_names_length += len_name;
         table_schema->column_data[i].len_col_name = len_name;
+        table_schema->total_col_names_length += len_name;
+
+        table_schema->total_row_len_inbytes += get_size_col_data_type(
+            table_schema->column_data[i]
+        );
     }
 
     fwrite(&table_schema->total_col_names_length, sizeof(int), 1, schema_file);
+    fwrite(&table_schema->total_row_len_inbytes, sizeof(int), 1, schema_file);
 
     // COLUMN DATA
 
@@ -48,8 +54,9 @@ void create_new_table_schema(schema_t* table_schema) {
         fwrite(&table_schema->column_data[i].col_id, sizeof(unsigned char), 1, schema_file);
         fwrite(&_data_offset, sizeof(unsigned char), 1, schema_file);
 
-        _data_offset += (table_schema->column_data[i].is_string) ? table_schema->column_data[i].max_str_len
-         : (int)get_size_col_data_type(table_schema->column_data[i].data_type);
+        _data_offset += get_size_col_data_type(
+            table_schema->column_data[i]
+        );
     }
 
 

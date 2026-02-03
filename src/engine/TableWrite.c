@@ -16,10 +16,8 @@ int write_new_rows_table(schema_t* table_schema, row_data_t* row_data, int num_r
 
         bool is_col_string = table_schema->column_data[curr_row.col_id].is_string;
 
-        size_t bytes_to_write = is_col_string 
-        ? (size_t)table_schema->column_data[curr_row.col_id].max_str_len
-        : (size_t)get_size_col_data_type(
-            table_schema->column_data[curr_row.col_id].data_type
+        size_t bytes_to_write = get_size_col_data_type(
+            table_schema->column_data[i]
         );
 
         if (is_col_string) {
