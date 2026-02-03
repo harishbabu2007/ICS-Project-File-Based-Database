@@ -7,13 +7,13 @@ void create_new_table_schema(schema_t* table_schema) {
     // TABLE HEADER
 
     // Max Table name size is 255
-    char *schema_file_name = "Testschema.bin";
+    char *schema_file_name = strcat(table_schema->table_name, "__schema_data.bin");
 
     FILE* schema_file = get_open_file_buffer(schema_file_name);
     
     table_schema->num_rows = 0;
 
-    // TABLE_HEADER 9 bytes
+    // TABLE_HEADER 13 bytes
     fwrite(&table_schema->num_rows, sizeof(int), 1, schema_file);
     fwrite(&table_schema->num_cols, sizeof(unsigned char), 1, schema_file);
 
@@ -31,15 +31,15 @@ void create_new_table_schema(schema_t* table_schema) {
     for (int i=0; i<table_schema->num_cols; i++){
         fwrite(
             &table_schema->column_data[i].is_primary_key,
-            sizeof(bool), 1, schema_file
+            sizeof(unsigned char), 1, schema_file
         );
         fwrite(
             &table_schema->column_data[i].data_type,
-            sizeof(col_data_type_t), 1, schema_file
+            sizeof(unsigned char), 1, schema_file
         );
         fwrite(
             &table_schema->column_data[i].is_string,
-            sizeof(bool), 1, schema_file
+            sizeof(unsigned char), 1, schema_file
         );
         fwrite(
             &table_schema->column_data[i].max_str_len,
@@ -47,11 +47,11 @@ void create_new_table_schema(schema_t* table_schema) {
         );
     }
 
-    // OFFSET TABLE num_cols * 4 bytes
+    // OFFSET TABLE num_cols * 8 bytes
 
     size_t offset = 0;
     for (int i=0; i<table_schema->num_cols; i++){
-        fwrite(&offset, sizeof(int), 1, schema_file);
+        fwrite(&offset, sizeof(size_t), 1, schema_file);
         offset += get_size_col_data_type(
             table_schema->column_data[i]
         );
