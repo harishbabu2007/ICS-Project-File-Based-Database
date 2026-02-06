@@ -1,45 +1,33 @@
-SRC_DIR := src
+# Compiler
+CXX := g++
+
 INC_DIR := includes
-OBJ_DIR := obj
+# Flags
+CXXFLAGS := -std=c++17 -Wall -Wextra -I$(INC_DIR)
+
+# Directories
+SRC_DIR := src
 BIN_DIR := bin
-EXEC_NAME := ics_dbms
+TARGET := $(BIN_DIR)/ics_dbms
 
-#compiler
-CC := gcc
-
-#finds all .h and .c files in include and src folders
-INCLUDES := $(shell find $(INC_DIR) -type d)
-CFLAGS   := $(addprefix -I,$(INCLUDES)) -Wall -Wextra -g
-
-SOURCES  := $(shell find $(SRC_DIR) -name '*.c')
-OBJECTS  := $(SOURCES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
-EXECUTABLE := $(BIN_DIR)/${EXEC_NAME}
+# Dynamically collect all .cpp files
+SRCS := $(shell find $(SRC_DIR) -type f -name '*.cpp')
 
 
+# Compile target
+compile: $(TARGET)
 
-# compile command
-compile: dirs $(EXECUTABLE)
+$(TARGET): $(SRCS)
+	mkdir -p $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $(SRCS) -o $(TARGET)
 
-#generate object files
-$(EXECUTABLE): $(OBJECTS)
-	$(CC) $(OBJECTS) -o $@
+# Run target... but compile too
+run: compile
+	./$(TARGET)
 
-#compile the object files with subdirectory preserved
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-#make obj and bin dirs if they dont exist
-dirs:
-	mkdir -p $(OBJ_DIR) $(BIN_DIR)
-
-#deletes obj and bin dirs for a cleaner compilation
+# Clean target
 clean:
-	rm -rf $(OBJ_DIR) $(BIN_DIR)
+	rm -rf $(BIN_DIR)
 
-run:
-	@./bin/${EXEC_NAME}
-
-showdat:
-	@hexdump data/data.bin
-
+# Rebuild target
+rebuild: clean compile

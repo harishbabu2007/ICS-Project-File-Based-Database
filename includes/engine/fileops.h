@@ -5,9 +5,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "utils/logging.h"
+#include <bits/stdc++.h>
 
-void play_around();
+using namespace std;
 
-FILE* get_open_file_buffer(char* file_name);
+FILE* get_open_file_buffer(string file_name);
 
 #endif

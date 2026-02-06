@@ -3,7 +3,9 @@
 
 #include<stdio.h>
 #include<stdlib.h>
-#include<string.h>
+#include<bits/stdc++.h>
+
+using namespace std;
 
 
 #define ANSI_COLOR_RED     "\x1b[31m"
@@ -25,16 +27,14 @@ typedef enum LogStatus {
 typedef struct LogTable {
     int num_rows;
     int num_cols;
-    char **row_data;
-    char **col_data;
+    vector<vector<string>> row_data;
+    vector<string> col_data;
 } log_table_t;
 
 
-void logger(char *buffer, log_status_t status);
+void logger(string buffer, log_status_t status);
 
-log_table_t* new_log_table(int num_rows, int num_cols, char **row_data, char **col_heads);
-void free_log_table(log_table_t* table_data);
 void log_table(log_table_t *table_data);
-void draw_table_line(int num_cols, int col_spaces[]);
+void draw_table_line(vector<int> col_spaces);
 
 #endif
