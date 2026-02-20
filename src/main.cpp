@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include"utils/logging.h"
 #include"engine/TableCreate.h"
+#include"interpreter/interpreter.h"
 
 
 void sample_testing(){
@@ -67,7 +68,8 @@ void testing_engine(){
 }
 
 int main(){
-    testing_engine();
-    sample_testing();
+    // testing_engine();
+    // sample_testing();
+    interpreter_testing();
     return 0;
 }
