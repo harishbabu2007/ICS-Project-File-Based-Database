@@ -48,7 +48,7 @@ int index_insertinto(char **a, int count) {
 void interpreter_testing() {
     printf("Interpreter Running... \n");
     while (true) {
-        printf(">>> ");
+        printf("~$ ");
 
         char *query;
         int ch;
