@@ -41,7 +41,7 @@ typedef struct Schema {
 
 typedef struct RowData {
     unsigned char col_id;
-    void* data;
+    shared_ptr<void> data;
 } row_data_t;
 
 

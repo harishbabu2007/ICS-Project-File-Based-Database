@@ -4,7 +4,7 @@ bool string_size_check(string data) {
     return data.size() <= MAX_COL_LEN;
 }
 
-char* get_c_str_buffer(string data){
+char* get_c_str_buffer_col_data(string data){
     char *buffer = new char[MAX_COL_LEN]();
     strcpy(buffer, data.c_str());
     return buffer;

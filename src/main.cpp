@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include"utils/logging.h"
 #include"engine/TableCreate.h"
+#include"engine/TableWrite.h"
 #include"interpreter/interpreter.h"
 
 
@@ -62,14 +63,25 @@ void testing_engine(){
     new_schema.num_cols = (int)column_data.size();
     new_schema.column_data = column_data;
 
-    create_new_table_schema(&new_schema);
-    logger("Successfully created schema\n", LOG_SUCCESS);
+    int res = create_new_table_schema(new_schema);
 
+    if (res != -1) logger("Successfully created schema\n", LOG_SUCCESS);
+    else logger("Error in creating schema!\n", LOG_ERROR);
+
+    vector<row_data_t> data_to_insert = {
+       {0, make_shared<int>(0)},
+       {1, make_shared<string>("b25bb1012")},
+       {2, make_shared<string>("Harish Babu Balaji")},
+    };
+
+    res = append_record_to_table(new_schema, data_to_insert);
+    if (res != -1) logger("Successfully Written Data\n", LOG_SUCCESS);
+    else logger("Error in writing data!\n", LOG_ERROR);
 }
 
 int main(){
-    // testing_engine();
+    testing_engine();
     // sample_testing();
-    interpreter_testing();
+    // interpreter_testing();
     return 0;
 }
