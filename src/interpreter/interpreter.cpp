@@ -1,12 +1,5 @@
 #include "interpreter/interpreter.h"
 
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-
-#define init_max_query_length 100
 
 int index_fromtable(char **a, int count) {
     int indf = -1;
@@ -52,9 +45,8 @@ int index_insertinto(char **a, int count) {
     return indi;
 }
 
-int main() {
+void interpreter_testing() {
     printf("Interpreter Running... \n");
-    int ch = 9;
     while (true) {
         printf(">>> ");
 
@@ -63,7 +55,7 @@ int main() {
         size_t size = init_max_query_length; // Initial capacity
         size_t len = 0;
 
-        query = malloc(sizeof(*query) * size); // Allocating initial memory
+        query = (char *)malloc(sizeof(*query) * size); // Allocating initial memory
 
         while ((ch = getchar()) != '\n') { // Reading characters until enter key is pressed
             ch = tolower((unsigned char)ch);
@@ -72,13 +64,13 @@ int main() {
 
             if (len == size-1) { // doubling capacity when we are about to run out of space
                 size += 100;
-                char *temp = realloc(query, sizeof(*query) * size);
+                char *temp = (char *)realloc(query, sizeof(*query) * size);
                 query = temp;
         }
         }
         query[len] = '\0'; // Null termination
 
-        char **tokens = malloc(len * sizeof(char *)); // tokenization starts here
+        char **tokens = (char **)malloc(len * sizeof(char *)); // tokenization starts here
         int count = 0;
         char *tok = strtok(query, " "); // first token
 
@@ -101,5 +93,4 @@ int main() {
         free(tokens);
         free(query);
     }
-    return 0;
 }
