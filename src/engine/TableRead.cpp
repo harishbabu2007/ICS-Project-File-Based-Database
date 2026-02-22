@@ -7,7 +7,7 @@ cell_data_t get_table_cell_data(int row, int col, schema_t schema_of_schema)
     FILE *file = fopen(schema_file_name.c_str(), "rb+");
 
     if (file == nullptr) {
-        perror("Fopen failed (schema)");
+        perror("Fopen failed (get_table_cell_data)");
         return {};
     }
     
@@ -36,10 +36,11 @@ cell_data_t get_table_cell_data(int row, int col, schema_t schema_of_schema)
 
     // READING FOR DATA
 
-    FILE *fileTable = fopen(schema_of_schema.table_name.c_str(), "rb+");
+    string table_file_name = schema_of_schema.table_name + "__table_data.bin";
+    FILE *fileTable = fopen(table_file_name.c_str(), "rb+");
 
     if (!fileTable) {
-        perror("Fopen failed (table)");
+        perror("Fopen failed (table in get_cell_data)");
         return {};
     }
 
@@ -58,7 +59,7 @@ schema_t get_schema_from_schema(string schema_file_name)
     FILE *file = fopen(schema_file_name.c_str(), "rb");
 
     if (!file) {
-        perror("Fopen failed (schema)");
+        perror("Fopen failed (get_schema_from_schema)");
         return {};
     }
 
@@ -85,7 +86,7 @@ schema_t get_schema_from_schema(string schema_file_name)
     fseek(file, table_name_sb, SEEK_SET);
     char buff[MAX_COL_LEN];
     if (fread(buff, 1, MAX_COL_LEN, file) != MAX_COL_LEN) return {};
-    string str(buff, MAX_COL_LEN);
+    string str(buff);
 
     schema_of_schema.table_name = str;
 
