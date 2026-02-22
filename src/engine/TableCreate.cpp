@@ -20,8 +20,8 @@ int create_new_table_schema(schema_t table_schema) {
         table_schema.num_rows = 0;
 
         // TABLE_HEADER 13 bytes
-        fwrite(&table_schema.num_rows, sizeof(int), 1, schema_file);
-        fwrite(&table_schema.num_cols, sizeof(unsigned char), 1, schema_file);
+        fwrite(&table_schema.num_rows, sizeof(table_schema.num_rows), 1, schema_file);
+        fwrite(&table_schema.num_cols, sizeof(table_schema.num_cols), 1, schema_file);
 
         table_schema.total_row_len_inbytes = 0;
         for (int i=0; i<table_schema.num_cols; i++){
@@ -30,7 +30,7 @@ int create_new_table_schema(schema_t table_schema) {
             );
         }
 
-        fwrite(&table_schema.total_row_len_inbytes, sizeof(size_t), 1, schema_file);
+        fwrite(&table_schema.total_row_len_inbytes, sizeof(table_schema.total_row_len_inbytes), 1, schema_file);
 
         // COL_DATA num_cols * 11 bytes
         for (int i=0; i<table_schema.num_cols; i++){
@@ -56,7 +56,7 @@ int create_new_table_schema(schema_t table_schema) {
         // OFFSET TABLE num_cols * 8 bytes
         size_t offset = 0;
         for (int i=0; i<table_schema.num_cols; i++){
-            fwrite(&offset, sizeof(size_t), 1, schema_file);
+            fwrite(&offset, sizeof(offset), 1, schema_file);
             offset += get_size_col_data_type(
                 table_schema.column_data[i]
             );

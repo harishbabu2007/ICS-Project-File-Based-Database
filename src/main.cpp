@@ -61,6 +61,8 @@ void testing_engine(){
 
     new_schema.table_name = "Students";
     new_schema.num_cols = (int)column_data.size();
+    cout << "num_cols" << new_schema.num_cols << endl;
+    new_schema.num_rows = 0;
     new_schema.column_data = column_data;
 
     create_new_table_schema(new_schema);
