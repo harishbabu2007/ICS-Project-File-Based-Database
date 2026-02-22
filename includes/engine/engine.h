@@ -44,5 +44,10 @@ typedef struct RowData {
     shared_ptr<void> data;
 } row_data_t;
 
+typedef struct CellData {
+    col_data_type_t cell_data_type;
+    shared_ptr<void> cell_data;
+} cell_data_t;
+
 
 #endif
