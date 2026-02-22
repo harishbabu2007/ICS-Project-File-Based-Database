@@ -6,7 +6,7 @@ cell_data_t get_table_cell_data(int row, int col, schema_t schema_of_schema)
     string schema_file_name = schema_of_schema.table_name + "__schema_data.bin";
     FILE *file = fopen(schema_file_name.c_str(), "rb+");
 
-    if (!file) {
+    if (file == nullptr) {
         perror("Fopen failed (schema)");
         return {};
     }
@@ -119,6 +119,6 @@ schema_t get_schema_from_schema(string schema_file_name)
          schema_of_schema.column_data.push_back(col_item);
     }
 
-    return schema_of_schema;
     fclose(file);
+    return schema_of_schema;
 }
