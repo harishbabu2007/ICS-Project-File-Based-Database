@@ -1,8 +1,26 @@
 #include"engine/TableWrite.h"
 
+int increment_num_rows(schema_t &table_schema, int increment){
+    string schema_file_name = table_schema.table_name + "__schema_data.bin";
+    
+    FILE* schema_file = fopen(
+        schema_file_name.c_str(),
+        "r+b"
+    );
+
+    if (!schema_file) return -1;
+
+    fseek(schema_file, 0, SEEK_SET);
+
+    table_schema.num_rows += increment;
+    fwrite(&table_schema.num_rows, sizeof(table_schema.num_rows), 1, schema_file);
+    fclose(schema_file);
+
+    return 0;
+}
 
 
-int append_record_to_table(schema_t table_schema, vector<row_data_t> data) {
+int append_record_to_table(schema_t &table_schema, vector<row_data_t> data) {
     string table_file_name = table_schema.table_name + "__table_data.bin";
 
     FILE* table_file = fopen(table_file_name.c_str(), "ab+");
@@ -29,6 +47,7 @@ int append_record_to_table(schema_t table_schema, vector<row_data_t> data) {
                     
                     int max_size = table_schema.column_data[i].max_str_len;
                     char *buffer = new char[max_size];
+                    memset(buffer, 0, max_size);
                     strncpy(buffer, str.c_str(), max_size - 1);
 
                     fwrite(buffer, sizeof(char), max_size, table_file);
@@ -53,9 +72,13 @@ int append_record_to_table(schema_t table_schema, vector<row_data_t> data) {
         }
 
         fclose(table_file);
-        return 0;
     } catch (runtime_error &e){
         fclose(table_file);
         return -1;
     }
+
+
+    // update num rows in schema and return that status code
+    return increment_num_rows(table_schema, 1);
 }
+
