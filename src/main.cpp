@@ -3,7 +3,7 @@
 #include"engine/TableCreate.h"
 #include"engine/TableWrite.h"
 #include"interpreter/interpreter.h"
-
+#include"engine/TableRead.h"
 
 void sample_testing(){
     logger("Test info\n", LOG_INFO);
@@ -65,26 +65,18 @@ void testing_engine(){
     new_schema.num_rows = 0;
     new_schema.column_data = column_data;
 
-    int res = create_new_table_schema(new_schema);
+    create_new_table_schema(new_schema);
+    logger("Successfully created schema\n", LOG_SUCCESS);
+}
 
-    if (res != -1) logger("Successfully created schema\n", LOG_SUCCESS);
-    else logger("Error in creating schema!\n", LOG_ERROR);
+void testing_read(){
 
-    vector<row_data_t> data_to_insert = {
-       {0, make_shared<int>(0)},
-       {1, make_shared<string>("b25bb1012")},
-       {2, make_shared<string>("Harish Babu Balaji")},
-    };
-
-    res = append_record_to_table(new_schema, data_to_insert);
-
-    if (res != -1) logger("Successfully Written Data\n", LOG_SUCCESS);
-    else logger("Error in writing data!\n", LOG_ERROR);
+    schema_t test_schema_of_schema = get_schema_from_schema("Students__schema_data.bin");
 }
 
 int main(){
     testing_engine();
+    testing_read();
     // sample_testing();
-    // interpreter_testing();
     return 0;
 }
