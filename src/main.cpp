@@ -68,12 +68,8 @@ void testing_engine(){
 }
 
 void testing_read(){
-    schema_t test_schema_of_schema = get_schema_from_schema("Students__schema_data.bin");
 
-    // printf("1 %d\n", test_schema_of_schema.num_cols);
-    // printf("2 %d\n", test_schema_of_schema.num_rows);
-    // printf("3 %zu\n", test_schema_of_schema.total_row_len_inbytes);
-    // printf("4 %d\n", test_schema_of_schema.column_data[1].is_primary_key);
+    schema_t test_schema_of_schema = get_schema_from_schema("Students__schema_data.bin");
 }
 
 int main(){

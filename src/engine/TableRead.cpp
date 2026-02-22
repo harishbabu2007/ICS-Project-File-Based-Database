@@ -1,44 +1,64 @@
 #include "engine/TableRead.h"
 #include "utils/utils.h"
 
-/*cell_data_t *get_table_cell_data(int row_num, int col_num, string schema_table_name) 
+cell_data_t get_table_cell_data(int row, int col, schema_t schema_of_schema)
 {
-    cell_data_t *cellData_t = (cell_data_t *) malloc(sizeof(cell_data_t *));
+    string schema_file_name = schema_of_schema.table_name + "__schema_data.bin";
+    FILE *file = fopen(schema_file_name.c_str(), "rb+");
+
+    if (!file) {
+        perror("Fopen failed (schema)");
+        return {};
+    }
+    
+    int th_bytes = 13;
+
+    cell_data_t cellData;
+
+    // READING FOR DATA TYPE
+
+    int data_read_sb = th_bytes + (col * 11) + 1; // bytes needed to skip to get to col_data_type
+    fseek(file, data_read_sb, SEEK_SET);
+    if(fread(&cellData.cell_data_type, 1, 1, file) != 1) 
+    { 
+        perror("data_type_read failed");
+        return {};
+    }
+
+    cout << cellData.cell_data_type << endl; // debugging
    
     // READING OFFSET FOR PARTICULAR CELL
 
     size_t col_offset;
-    int col_offset_sb = th_bytes + (schema_of_schema.num_cols * 11) + (col_num * 8);
+    int col_offset_sb = th_bytes + (schema_of_schema.num_cols * 11) + (col * 8);
     fseek(file, col_offset_sb, SEEK_SET);
-    if(fread(&col_offset, 8, 1, file) != 1) return;
-
-    // READING FOR DATA TYPE
-
-    int data_read_sb = th_bytes + col_num * 11 + 1; // bytes needed to skip to get to col_data_type
-    fseek(file, data_read_sb, SEEK_SET);
-    if(fread(&cellData_t->cell_data_type, 1, 1, file) != 1) return;
+    if(fread(&col_offset, 1, 8, file) != 8) return {};
 
     // READING FOR DATA
 
-    FILE *fileTable = get_open_file_buffer(table_name);
+    FILE *fileTable = fopen(schema_of_schema.table_name.c_str(), "rb+");
 
-    size_t cell_data_sb = (row_length * row_num) + col_offset;
+    if (!fileTable) {
+        perror("Fopen failed (table)");
+        return {};
+    }
+
+    size_t cell_data_sb = (schema_of_schema.total_row_len_inbytes * row) + col_offset;
     fseek(fileTable, cell_data_sb, SEEK_SET);
-    if (fread(&cellData_t->cell_data, sizeof(cellData_t->cell_data_type), 1, fileTable) != 1) return NULL;
+    if (fread(&cellData.cell_data, sizeof(cellData.cell_data), 1, fileTable) != 1) return {};
 
+    fclose(file);
     fclose(fileTable);
 
-    return cellData_t;
-    free(cellData_t);
+    return cellData;
 }
-    */
 
 schema_t get_schema_from_schema(string schema_file_name)
 {
     FILE *file = fopen(schema_file_name.c_str(), "rb");
 
     if (!file) {
-        perror("Fopen failed");
+        perror("Fopen failed (schema)");
         return {};
     }
 
