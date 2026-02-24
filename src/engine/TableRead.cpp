@@ -42,8 +42,6 @@ cell_data_t get_table_cell_data(int row, int col, schema_t schema_of_schema)
         return {};
     }
 
-    // this code has bus error: 10 !!
-
     size_t col_size = sizeof(cellData.cell_data_type);  // MUST be known
 
     auto buffer = std::shared_ptr<char[]>(
