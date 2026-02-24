@@ -13,7 +13,7 @@ cell_data_t get_table_cell_data(int row, int col, schema_t schema_of_schema)
     
     int th_bytes = 13;
 
-    cell_data_t cellData;
+    cell_data_t cellData{};
 
     // READING FOR DATA TYPE
 
@@ -24,8 +24,6 @@ cell_data_t get_table_cell_data(int row, int col, schema_t schema_of_schema)
         perror("data_type_read failed");
         return {};
     }
-
-    cout << cellData.cell_data_type << endl; // debugging
    
     // READING OFFSET FOR PARTICULAR CELL
 
@@ -44,9 +42,21 @@ cell_data_t get_table_cell_data(int row, int col, schema_t schema_of_schema)
         return {};
     }
 
+    // this code has bus error: 10 !!
+
+    size_t col_size = sizeof(cellData.cell_data_type);  // MUST be known
+
+    auto buffer = std::shared_ptr<char[]>(
+    new char[col_size],
+    std::default_delete<char[]>()
+    );
+
     size_t cell_data_sb = (schema_of_schema.total_row_len_inbytes * row) + col_offset;
     fseek(fileTable, cell_data_sb, SEEK_SET);
-    if (fread(&cellData.cell_data, sizeof(cellData.cell_data), 1, fileTable) != 1) return {};
+    if (fread(buffer.get(), col_size, 1, fileTable) != 1)
+    return {};
+
+    cellData.cell_data = buffer;
 
     fclose(file);
     fclose(fileTable);
