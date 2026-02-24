@@ -70,20 +70,27 @@ void testing_engine(){
     else logger("Error in creating schema!\n", LOG_ERROR);
 
     vector<row_data_t> data_to_insert = {
-       {0, make_shared<int>(0)},
-       {1, make_shared<string>("b25bb1012")},
-       {2, make_shared<string>("Harish Babu Balaji")},
+        {0, make_shared<int>(0)},
+        {1, make_shared<string>("b25bb1012")},
+        {2, make_shared<string>("Harish Babu Balaji")},
+    };
+
+    vector<row_data_t> data_to_insert_2 = {
+        {0, make_shared<int>(0)},
+        {1, make_shared<string>("b25ee1001")},
+        {2, make_shared<string>("Abhishek Reddy")},
     };
 
     res = append_record_to_table(new_schema, data_to_insert);
+    int res2 = append_record_to_table(new_schema, data_to_insert_2);
 
-    if (res != -1) logger("Successfully Written Data\n", LOG_SUCCESS);
+    if (res != -1 && res2 != -1) logger("Successfully Written Data\n", LOG_SUCCESS);
     else logger("Error in writing data!\n", LOG_ERROR);
 }
 
 void testing_read(){
     schema_t test_schema_of_schema = get_schema_from_schema("Students__schema_data.bin");
-    cell_data_t cellData = get_table_cell_data(0, 2, test_schema_of_schema);
+    cell_data_t cellData = get_table_cell_data(1, 2, test_schema_of_schema);
 
     cout << "data type " << cellData.cell_data_type << endl;
 

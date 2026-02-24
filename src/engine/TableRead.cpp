@@ -24,13 +24,6 @@ cell_data_t get_table_cell_data(int row, int col, schema_t schema_of_schema)
         perror("data_type_read failed");
         return {};
     }
-   
-    // READING OFFSET FOR PARTICULAR CELL
-
-    size_t col_offset;
-    int col_offset_sb = th_bytes + (schema_of_schema.num_cols * 11) + (col * 8);
-    fseek(file, col_offset_sb, SEEK_SET);
-    if(fread(&col_offset, 1, 8, file) != 8) return {};
 
     // READING FOR DATA
 
@@ -42,17 +35,39 @@ cell_data_t get_table_cell_data(int row, int col, schema_t schema_of_schema)
         return {};
     }
 
-    size_t col_size = sizeof(cellData.cell_data_type);  // MUST be known
 
+    // getting the size of the data type
+    size_t col_size;  // MUST be known
+
+    switch(cellData.cell_data_type){
+        case STRING: {
+            int max_str_len_offset_sb = th_bytes + (col*11) + 3;
+            fseek(file, max_str_len_offset_sb, SEEK_SET);
+            
+            // reading max_str_len
+            if (fread(&col_size, 1, sizeof(size_t), file) != sizeof(size_t)) return {};
+
+            break;
+        }
+        default:
+            col_size = get_size_data_exp_string(cellData.cell_data_type);
+    }
+
+    // READING OFFSET FOR PARTICULAR CELL
+    size_t col_offset;
+    int col_offset_sb = th_bytes + (schema_of_schema.num_cols * 11) + (col * 8);
+    fseek(file, col_offset_sb, SEEK_SET);
+    if(fread(&col_offset, 1, sizeof(size_t), file) != sizeof(size_t)) return {};
+
+    // Actually reading the data
     auto buffer = std::shared_ptr<char[]>(
     new char[col_size],
-    std::default_delete<char[]>()
+        std::default_delete<char[]>()
     );
 
     size_t cell_data_sb = (schema_of_schema.total_row_len_inbytes * row) + col_offset;
     fseek(fileTable, cell_data_sb, SEEK_SET);
-    if (fread(buffer.get(), col_size, 1, fileTable) != 1)
-    return {};
+    if (fread(buffer.get(), col_size, 1, fileTable) != 1) return {};
 
     cellData.cell_data = buffer;
 
@@ -73,7 +88,7 @@ schema_t get_schema_from_schema(string schema_file_name)
 
     schema_t schema_of_schema;
     // TABLE HEADER BYTES
-     int th_bytes = 13;
+    int th_bytes = 13;
 
     // READING TOTAL NUM OF ROWS
     if (fread(&schema_of_schema.num_rows, sizeof(schema_of_schema.num_rows), 1, file) != 1) return {};
@@ -109,16 +124,16 @@ schema_t get_schema_from_schema(string schema_file_name)
         col_item.col_id = i; // col_id
 
         fseek(file, col_data_sb, SEEK_SET);
-         if(fread(&col_item.is_primary_key, 1, 1, file) != 1) return {}; // is_primary_key
+         if(fread(&col_item.is_primary_key, sizeof(col_item.is_primary_key), 1, file) != 1) return {}; // is_primary_key
 
-         if(fread(&col_item.data_type, 1, 1, file) != 1) return {}; // data_type
-         if(fread(&col_item.is_string, 1, 1, file) != 1) return {}; // is_string
+         if(fread(&col_item.data_type, sizeof(col_item.data_type), 1, file) != 1) return {}; // data_type
+         if(fread(&col_item.is_string, sizeof(col_item.is_string), 1, file) != 1) return {}; // is_string
 
-         if(fread(&col_item.max_str_len, 8, 1, file) != 1) return {}; // max_str_len
+         if(fread(&col_item.max_str_len, sizeof(col_item.max_str_len), 1, file) != 1) return {}; // max_str_len
 
          int col_name_sb = th_bytes + (schema_of_schema.num_cols * 11) + (schema_of_schema.num_cols * 8) + 255;
 
-         fseek(file, (col_name_sb + (i * 255)), SEEK_SET);
+         fseek(file, (col_name_sb + (i * MAX_COL_LEN)), SEEK_SET);
          char buff[MAX_COL_LEN];
          if (fread(buff, 1, MAX_COL_LEN, file) != MAX_COL_LEN) return {}; // col_name
          string str(buff, MAX_COL_LEN);

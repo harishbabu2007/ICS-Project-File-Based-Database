@@ -31,4 +31,29 @@ size_t get_size_col_data_type(col_item_t column_data) {
     }
 }
 
+size_t get_size_data_exp_string(col_data_type_t data_type){
+    switch(data_type){
+        case INT: {
+            return sizeof(int);
+        }
+        case UNSIGNED_INT: {
+            return sizeof(unsigned int);
+        }
+        case BOOLEAN: {
+            return sizeof(bool);
+        }
+        case FLOATING_POINT: {
+            return sizeof(float);
+        }
+        case DOUBLE_FLOATING_POINT: {
+            return sizeof(double);
+        }
+        case UNSIGNED_CHAR: {
+            return sizeof(unsigned char);
+        }
+        default:
+            return 0;
+    }
+}
+
 
