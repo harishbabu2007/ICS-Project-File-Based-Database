@@ -4,6 +4,7 @@
 #include"engine/TableWrite.h"
 #include"interpreter/interpreter.h"
 #include"engine/TableRead.h"
+#include"engine/TableDelete.h"
 
 void sample_testing(){
     logger("Test info\n", LOG_INFO);
@@ -81,10 +82,18 @@ void testing_engine(){
         {2, make_shared<string>("Abhishek Reddy")},
     };
 
+    vector<row_data_t> data_to_insert_3 = {
+        {0, make_shared<int>(0)},
+        {1, make_shared<string>("b25me1002")},
+        {2, make_shared<string>("Rahul")},
+    };
+
+
     res = append_record_to_table(new_schema, data_to_insert);
     int res2 = append_record_to_table(new_schema, data_to_insert_2);
+    int res3 = append_record_to_table(new_schema, data_to_insert_3);
 
-    if (res != -1 && res2 != -1) logger("Successfully Written Data\n", LOG_SUCCESS);
+    if (res != -1 && res2 != -1 && res3 != -1) logger("Successfully Written Data\n", LOG_SUCCESS);
     else logger("Error in writing data!\n", LOG_ERROR);
 }
 
@@ -125,13 +134,27 @@ void testing_read(){
         case STRING:
             cout << static_cast<char*>(cellData.cell_data.get()) << endl;
             break;
+
+        case NULL_TYPE:
+            cout << "Null Data read" << endl;
+            break;
     }
+}
+
+void testing_table_delete(){
+    schema_t table_schema = get_schema_from_schema("Students__schema_data.bin");
+
+    int res = delete_row_from_table(0, table_schema);
+
+    if (res != -1) logger("Successfully Deleted Row\n", LOG_SUCCESS);
+    else logger("Error in deleting data!\n", LOG_ERROR);
 }
 
 
 int main(){
     testing_engine();
-    testing_read();
+    // testing_read();
     // sample_testing();
+    testing_table_delete();
     return 0;
 }

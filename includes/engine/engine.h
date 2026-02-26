@@ -17,6 +17,7 @@ typedef enum ColDataType {
     FLOATING_POINT,
     DOUBLE_FLOATING_POINT,
     UNSIGNED_CHAR,
+    NULL_TYPE,
 } col_data_type_t;
 
 
