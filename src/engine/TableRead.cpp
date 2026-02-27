@@ -96,7 +96,7 @@ schema_t get_schema_from_schema(string schema_file_name)
     // READING TOTAL NUM OF ROWS
     if (fread(&schema_of_schema.num_rows, sizeof(schema_of_schema.num_rows), 1, file) != 1) return {};
 
-    // // READING TOTAL NUM OF COLS
+    // READING TOTAL NUM OF COLS
     fseek(file, 4, SEEK_SET);
     if (fread(&schema_of_schema.num_cols, sizeof(schema_of_schema.num_cols), 1, file) != 1) return {};
 
