@@ -63,7 +63,7 @@ int cell_data_modify(schema_t schema_of_schema, cell_data_t after, int row, int 
 
     if (before.cell_data_type != after.cell_data_type) return -2; 
 
-    cout << "unmodified: " << static_cast<char*>(before.cell_data.get()) << endl; // debugging
+    // cout << "unmodified: " << static_cast<char*>(before.cell_data.get()) << endl; // debugging
 
     // OVER-WRITING DATA
 
@@ -80,40 +80,34 @@ int cell_data_modify(schema_t schema_of_schema, cell_data_t after, int row, int 
 
     void *info = after.cell_data.get();
 
+    fseek(fileTable, cell_data_sb, SEEK_SET);
     switch (after.cell_data_type)
     {
         case INT:
-            fseek(fileTable, cell_data_sb, SEEK_SET);
             fwrite(info, sizeof(int), 1, fileTable);
             break;
 
         case UNSIGNED_INT:
-            fseek(fileTable, cell_data_sb, SEEK_SET);
             fwrite(info, sizeof(unsigned int), 1, fileTable);
             break;
 
         case BOOLEAN:
-            fseek(fileTable, cell_data_sb, SEEK_SET);
             fwrite(info, sizeof(bool), 1, fileTable);
             break;
 
         case FLOATING_POINT:
-            fseek(fileTable, cell_data_sb, SEEK_SET);
             fwrite(info, sizeof(float), 1, fileTable);
             break;
 
         case DOUBLE_FLOATING_POINT:
-            fseek(fileTable, cell_data_sb, SEEK_SET);
             fwrite(info, sizeof(double), 1, fileTable);
             break;
 
         case UNSIGNED_CHAR:
-            fseek(fileTable, cell_data_sb, SEEK_SET);
             fwrite(info, sizeof(unsigned), 1, fileTable);
             break;
 
         case STRING:
-            fseek(fileTable, cell_data_sb, SEEK_SET);
             string str = *(string *)info;
 
                     char *buffer = new char[col_size];
@@ -126,7 +120,7 @@ int cell_data_modify(schema_t schema_of_schema, cell_data_t after, int row, int 
             break;
     }
 
-    cout << "data type: " << after.cell_data_type << endl; // debugging
+    // cout << "data type: " << after.cell_data_type << endl; // debugging
 
     fclose(file);
     fclose(fileTable);
