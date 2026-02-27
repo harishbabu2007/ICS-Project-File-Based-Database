@@ -2,7 +2,7 @@
 
 
 
-int delete_row_from_table(int row, schema_t table_schema) {
+int delete_row_from_table(int row, schema_t &table_schema) {
     // check whether we can actually proceed with deletion
     if (row >= table_schema.num_rows) return -1;
 
@@ -55,6 +55,8 @@ int delete_row_from_table(int row, schema_t table_schema) {
         perror("Error Renaming temp file to original file");
         return -1;
     }
+
+    table_schema.num_rows -= 1;
 
     return 0;
 }
