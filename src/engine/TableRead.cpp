@@ -13,7 +13,10 @@ cell_data_t get_table_cell_data(int row, int col, schema_t schema_of_schema)
     
     int th_bytes = 13;
 
-    cell_data_t cellData{};
+    cell_data_t cellData{
+        .cell_data_type = NULL_TYPE,
+        .cell_data = nullptr
+    };
 
     // READING FOR DATA TYPE
 
