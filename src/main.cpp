@@ -148,9 +148,9 @@ void testing_modify()
 
     cell_data_t after = {
         .cell_data_type = STRING,
-        .cell_data = make_shared<string>("Abhishek Reddy N")
+        .cell_data = make_shared<string>("b25me1067")
     };
-    cell_data_modify(test_schema_of_schema, after, 1, 2);
+    cell_data_modify(test_schema_of_schema, after, 2, 1);
 }
 
 void testing_table_delete(){

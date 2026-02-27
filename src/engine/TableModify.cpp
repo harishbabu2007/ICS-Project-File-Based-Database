@@ -107,16 +107,19 @@ int cell_data_modify(schema_t schema_of_schema, cell_data_t after, int row, int 
             fwrite(info, sizeof(unsigned), 1, fileTable);
             break;
 
-        case STRING:
+        case STRING: {
             string str = *(string *)info;
 
-                    char *buffer = new char[col_size];
-                    memset(buffer, 0, col_size);
-                    strncpy(buffer, str.c_str(), col_size - 1);
+            char *buffer = new char[col_size];
+            memset(buffer, 0, col_size);
+            strncpy(buffer, str.c_str(), col_size - 1);
 
-                    fwrite(buffer, sizeof(char), col_size, fileTable);
-                    delete[] buffer;
-                    break;
+            fwrite(buffer, sizeof(char), col_size, fileTable);
+            delete[] buffer;
+            break;
+        }
+        
+        default:
             break;
     }
 
