@@ -674,15 +674,3 @@ When calling `get_schema_from_schema()`, use the full filename including `__sche
 | `cell_data_modify()` | Update a cell | Enforces type matching, returns 0 on success |
 | `delete_row_from_table()` | Remove a row | Automatically decrements schema.num_rows, returns 0 on success |
 
----
-
-## Next Steps for Interpreter Development
-
-With this engine, you can build:
-- SQL query parsers that translate SELECT, INSERT, UPDATE, DELETE to engine calls
-- Query optimizers that decide which rows to fetch
-- Transaction managers that handle multiple operations
-- Index structures that speed up lookups
-- Permission and access control systems
-
-The engine handles the low-level file I/O and binary format; your interpreter layer should focus on parsing, optimization, and business logic.
