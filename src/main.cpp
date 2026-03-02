@@ -2,10 +2,10 @@
 #include"utils/logging.h"
 #include"engine/TableCreate.h"
 #include"engine/TableWrite.h"
-#include"interpreter/interpreter.h"
 #include"engine/TableRead.h"
 #include"engine/TableModify.h"
 #include"engine/TableDelete.h"
+#include "interpreter/interpreter.h"
 
 void sample_testing(){
     logger("Test info\n", LOG_INFO);
@@ -167,6 +167,8 @@ int main(){
     // testing_engine();
     // testing_read();
     // sample_testing();
-    testing_modify();
+    // testing_modify();
+    vector<string> s=tokenize("Hello world");
+    cout<<s[0];
     return 0;
 }
