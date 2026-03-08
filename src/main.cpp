@@ -100,46 +100,61 @@ void testing_engine(){
 
 void testing_read(){
     schema_t test_schema_of_schema = get_schema_from_schema("Students__schema_data.bin");
-    cell_data_t cellData = get_table_cell_data(1, 2, test_schema_of_schema);
 
-    cout << "data type " << cellData.cell_data_type << endl;
-
-    switch (cellData.cell_data_type)
+    cout << test_schema_of_schema.table_name << endl;
+    cout << static_cast<unsigned int>(test_schema_of_schema.num_cols) << endl;
+        cout << test_schema_of_schema.num_rows << endl;
+        cout << test_schema_of_schema.total_row_len_inbytes << endl;
+        
+    for (int i = 0; i < test_schema_of_schema.num_cols; i++)
     {
-        case INT:
-            cout << *static_cast<int*>(cellData.cell_data.get());
-            break;
-
-        case UNSIGNED_INT:
-            cout << *static_cast<unsigned int*>(cellData.cell_data.get()) << endl;
-            break;
-
-        case BOOLEAN:
-            cout << (*static_cast<bool*>(cellData.cell_data.get()) ? "true" : "false") << endl;
-            break;
-
-        case FLOATING_POINT:
-            cout << *static_cast<float*>(cellData.cell_data.get()) << endl;
-            break;
-
-        case DOUBLE_FLOATING_POINT:
-            cout << *static_cast<double*>(cellData.cell_data.get()) << endl;
-            break;
-
-        case UNSIGNED_CHAR:
-            cout << static_cast<unsigned int>(
-                *static_cast<unsigned char*>(cellData.cell_data.get())
-            ) << endl;
-            break;
-
-        case STRING:
-            cout << static_cast<char*>(cellData.cell_data.get()) << endl;
-            break;
-
-        case NULL_TYPE:
-            cout << "Null Data read" << endl;
-            break;
+        cout << static_cast<unsigned int>(test_schema_of_schema.column_data[i].col_id) <<" ";
+        cout << test_schema_of_schema.column_data[i].col_name << " ";
+        cout << test_schema_of_schema.column_data[i].is_primary_key << " ";
+        cout << static_cast<unsigned int>(test_schema_of_schema.column_data[i].data_type)<<" ";
+        cout << test_schema_of_schema.column_data[i].is_string <<" ";
+        cout << test_schema_of_schema.column_data[i].max_str_len << endl;
     }
+    // cell_data_t cellData = get_table_cell_data(1, 2, test_schema_of_schema);
+
+    // cout << "data type " << cellData.cell_data_type << endl;
+
+    // switch (cellData.cell_data_type)
+    // {
+    //     case INT:
+    //         cout << *static_cast<int*>(cellData.cell_data.get());
+    //         break;
+
+    //     case UNSIGNED_INT:
+    //         cout << *static_cast<unsigned int*>(cellData.cell_data.get()) << endl;
+    //         break;
+
+    //     case BOOLEAN:
+    //         cout << (*static_cast<bool*>(cellData.cell_data.get()) ? "true" : "false") << endl;
+    //         break;
+
+    //     case FLOATING_POINT:
+    //         cout << *static_cast<float*>(cellData.cell_data.get()) << endl;
+    //         break;
+
+    //     case DOUBLE_FLOATING_POINT:
+    //         cout << *static_cast<double*>(cellData.cell_data.get()) << endl;
+    //         break;
+
+    //     case UNSIGNED_CHAR:
+    //         cout << static_cast<unsigned int>(
+    //             *static_cast<unsigned char*>(cellData.cell_data.get())
+    //         ) << endl;
+    //         break;
+
+    //     case STRING:
+    //         cout << static_cast<char*>(cellData.cell_data.get()) << endl;
+    //         break;
+
+    //     case NULL_TYPE:
+    //         cout << "Null Data read" << endl;
+    //         break;
+    // }
 }
 
 void testing_modify()
@@ -165,8 +180,8 @@ void testing_table_delete(){
 
 int main(){
     // testing_engine();
-    // testing_read();
+    testing_read();
     // sample_testing();
-    testing_modify();
+    // testing_modify();
     return 0;
 }
