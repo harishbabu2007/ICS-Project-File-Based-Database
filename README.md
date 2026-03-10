@@ -2,7 +2,7 @@
 ```Filed Based Database with SQL parser```
 
 ## Team Members 
-Harish, Abhishek, Rahul, Ashar Ansari
+Harish, Abhishek, Rahul, Ashhar Ansari
 
 ## How to Use (Compile from source)
 use command ```make compile``` to compile the source code and create the executable

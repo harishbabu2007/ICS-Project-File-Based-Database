@@ -35,14 +35,13 @@ void draw_table_line(vector<int> col_spaces){
 void log_table(log_table_t *table_data) {
     int max_spacing = -1;
 
-    // int* col_spaces = (int *)calloc(table_data->num_cols, sizeof(int));
     vector<int> col_spaces(table_data->num_cols, 0);
 
     // get max spacing for each column
     for (int i=0; i<table_data->num_cols; i++){
         max_spacing = max(max_spacing, (int)(2+table_data->col_data[i].size()));
         for (int j=0; j<table_data->num_rows; j++){
-            max_spacing = max(max_spacing, (int)(2+table_data->row_data[i][j].size()));
+            max_spacing = max(max_spacing, (int)(2+table_data->row_data[j][i].size()));
         }
         col_spaces[i] = max_spacing;
         max_spacing = -1;
@@ -58,7 +57,7 @@ void log_table(log_table_t *table_data) {
         int rem_space = col_spaces[i] - word_len;
 
         cout << table_data->col_data[i];
-        for (int i=0; i<rem_space; i++) logger(" ", LOG_INFO);
+        for (int k=0; k<rem_space; k++) logger(" ", LOG_INFO);
         logger("|", LOG_SUCCESS);
     }
     cout << endl;
@@ -68,20 +67,16 @@ void log_table(log_table_t *table_data) {
 
     // printing content of table
     for (int i=0; i<table_data->num_rows; i++){
+        logger("|", LOG_SUCCESS);
         for (int j=0; j<table_data->num_cols; j++) {
             int word_len = (int)table_data->row_data[i][j].size();
             int rem_space = col_spaces[j] - word_len;
 
-            logger("|", LOG_SUCCESS);
             cout << table_data->row_data[i][j];
             for (int k=0; k<rem_space; k++) logger(" ", LOG_INFO);
-
-            if (j==table_data->num_cols-1){
-                logger("|", LOG_SUCCESS);
-                cout << endl;
-            }
+            logger("|", LOG_SUCCESS);
         }
-        
+        cout << endl;
     }
 
     //printing table end line

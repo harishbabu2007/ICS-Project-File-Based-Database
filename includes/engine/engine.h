@@ -9,7 +9,7 @@ using namespace std;
 #define MAX_COL_LEN 255
 
 
-typedef enum ColDataType {
+typedef enum ColDataType : unsigned char {
     INT,
     UNSIGNED_INT,
     STRING,
@@ -18,7 +18,8 @@ typedef enum ColDataType {
     DOUBLE_FLOATING_POINT,
     UNSIGNED_CHAR,
     NULL_TYPE,
-} col_data_type_t;
+} col_data_type_t; // underlying type narrowed to one byte to match on-disk format
+
 
 
 typedef struct ColItem {

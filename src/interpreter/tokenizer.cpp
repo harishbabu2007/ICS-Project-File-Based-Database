@@ -13,15 +13,12 @@ vector<string> tokenize(const string& s) {
             }
             continue;
         }
-        else if((c==',')||(c=='(')||(c==')')||(c==';')){
+        else if((c==',')||(c=='(')||(c==')')||(c==';')||(c=='=')){
                 if(!x.empty()){
                 tokens.push_back(x);
                 x="";
             }
              tokens.push_back(string(1,c));
-        }
-        else if(c=='"'){
-            
         }
         else{
             x+=c;

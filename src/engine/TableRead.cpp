@@ -128,16 +128,22 @@ schema_t get_schema_from_schema(string schema_file_name)
 
         fseek(file, col_data_sb, SEEK_SET);
          if(fread(&col_item.is_primary_key, sizeof(bool), 1, file) != 1) return {}; // is_primary_key
-         if(fread(&col_item.data_type, sizeof(unsigned char), 1, file) != 1) return {}; // data_type
+         
+         // read one byte from disk and convert to enum to avoid UB from partial
+         // initialization when sizeof(col_data_type_t) > 1
+         unsigned char temp_dt;
+         if(fread(&temp_dt, sizeof(temp_dt), 1, file) != 1) return {}; // data_type
+         col_item.data_type = static_cast<col_data_type_t>(temp_dt);
+
          if(fread(&col_item.is_string, sizeof(bool), 1, file) != 1) return {}; // is_string
          if(fread(&col_item.max_str_len, sizeof(size_t), 1, file) != 1) return {}; // max_str_len
          
          int col_name_sb = th_bytes + (schema_of_schema.num_cols * 11) + (schema_of_schema.num_cols * 8) + 255;
 
          fseek(file, (col_name_sb + (i * MAX_COL_LEN)), SEEK_SET);
-         char buff[MAX_COL_LEN];
+         char buff[MAX_COL_LEN]={0};
          if (fread(buff, 1, MAX_COL_LEN, file) != MAX_COL_LEN) return {}; // col_name
-         string str(buff, MAX_COL_LEN);
+         string str(buff);
 
          col_item.col_name = str;
 
