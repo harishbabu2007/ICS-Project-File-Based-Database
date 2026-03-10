@@ -7,27 +7,27 @@
 #include"engine/TableDelete.h"
 #include "interpreter/interpreter.h"
 
-void sample_testing(){
-    logger("Test info\n", LOG_INFO);
-    logger("Test success\n", LOG_SUCCESS);
-    logger("Test error\n", LOG_ERROR);
-    logger("Test warning\n", LOG_WARNING);
+// void sample_testing(){
+//     logger("Test info\n", LOG_INFO);
+//     logger("Test success\n", LOG_SUCCESS);
+//     logger("Test error\n", LOG_ERROR);
+//     logger("Test warning\n", LOG_WARNING);
 
-    vector<string> columns = {"Name", "Email"};
-    vector<vector<string>> rows = {
-        { "John Doe", "b25xx10xx@iitj.ac.in" },
-        { "Ben Dover", "b24yy101x@iitj.ac.in" },
-    };
+//     vector<string> columns = {"Name", "Email"};
+//     vector<vector<string>> rows = {
+//         { "John Doe", "b25xx10xx@iitj.ac.in" },
+//         { "Ben Dover", "b24yy101x@iitj.ac.in" },
+//     };
 
-    log_table_t sample_table = {
-        .num_rows = (int)rows.size(),
-        .num_cols = (int)columns.size(),
-        .row_data = rows,
-        .col_data = columns,
-    };
+//     log_table_t sample_table = {
+//         .num_rows = (int)rows.size(),
+//         .num_cols = (int)columns.size(),
+//         .row_data = rows,
+//         .col_data = columns,
+//     };
     
-    log_table(&sample_table);
-}
+//     log_table(&sample_table);
+// }
 
 void testing_engine(){
     col_item_t id_col = {
@@ -70,6 +70,18 @@ void testing_engine(){
 
     if (res != -1) logger("Successfully created schema\n", LOG_SUCCESS);
     else logger("Error in creating schema!\n", LOG_ERROR);
+// //testing by ashhar
+//     schema_t table_schema=get_schema_from_schema("Student__schema_data.bin");
+//         for (size_t i = 0; i < table_schema.num_cols; i++)
+//     {
+//         cout << table_schema.column_data[i].is_primary_key<< "\n";
+//         cout << table_schema.column_data[i].col_id<< "\n";
+//         cout << table_schema.column_data[i].data_type << "\n";
+//         cout << table_schema.column_data[i].col_name<< "\n";
+//         cout << table_schema.column_data[i].is_string << "\n";
+//         cout << table_schema.column_data[i].max_str_len<< "\n";
+//     }
+
 
     vector<row_data_t> data_to_insert = {
         {0, make_shared<int>(0)},
@@ -168,25 +180,25 @@ void testing_modify()
     cell_data_modify(test_schema_of_schema, after, 1, 2);
 }
 
-void testing_modify()
-{
-    schema_t test_schema_of_schema = get_schema_from_schema("Students__schema_data.bin");
+// void testing_modify()
+// {
+//     schema_t test_schema_of_schema = get_schema_from_schema("Students__schema_data.bin");
 
-    cell_data_t after = {
-        .cell_data_type = STRING,
-        .cell_data = make_shared<string>("b25me1067")
-    };
-    cell_data_modify(test_schema_of_schema, after, 2, 1);
-}
+//     cell_data_t after = {
+//         .cell_data_type = STRING,
+//         .cell_data = make_shared<string>("b25me1067")
+//     };
+//     cell_data_modify(test_schema_of_schema, after, 2, 1);
+// }
 
-void testing_table_delete(){
-    schema_t table_schema = get_schema_from_schema("Students__schema_data.bin");
+// void testing_table_delete(){
+//     schema_t table_schema = get_schema_from_schema("Students__schema_data.bin");
 
-    int res = delete_row_from_table(0, table_schema);
+//     int res = delete_row_from_table(0, table_schema);
 
-    if (res != -1) logger("Successfully Deleted Row\n", LOG_SUCCESS);
-    else logger("Error in deleting data!\n", LOG_ERROR);
-}
+//     if (res != -1) logger("Successfully Deleted Row\n", LOG_SUCCESS);
+//     else logger("Error in deleting data!\n", LOG_ERROR);
+// }
 
 
 int main(){
@@ -194,7 +206,23 @@ int main(){
     // testing_read();
     // sample_testing();
     // testing_modify();
-    vector<string> s=tokenize("Hello world");
-    cout<<s[0];
+    // vector<string> s=tokenize("create roll from Table(1,ashhar,3)");
+    // for(auto i=s.begin();i<s.end();i++){
+    //     cout<<(*i)<<endl;
+    // }
+    create_table(tokenize("CREATE TABLE Student(ID INT, ROLL_NO STRING PRIMARY_KEY(10), Name STRING(20),Department STRING(30) );"));
+    // insert_into_table(tokenize("INSERT INTO Student (1,b25ee1009,Ashhar);"));
+
+insert_into_table(tokenize(
+"INSERT INTO Student VALUES (1,b25ee1009,Ashhar,Electrical),(2,b25bb1007,Harish Babu,Bio);"));
+// insert_into_table(tokenize("INSERT INTO Student VALUES(0,b25ee1009,Ashhar,Electrical);"));
+
+read_table(tokenize("SELECT * FROM Student;"));
+    // cout<<is_identifier("PEROSN_ID");
+    // read_table(tokenize("SELECT ID,NAME FROM STUDENTS;"));
+    // vector<string> tokens=tokenize("H(255)");
+    // for(auto i=tokens.begin();i<tokens.end();i++){
+    //     cout<<*i<<endl;
+    // }
     return 0;
 }
