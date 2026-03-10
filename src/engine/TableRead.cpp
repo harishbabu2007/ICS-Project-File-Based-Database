@@ -104,7 +104,7 @@ schema_t get_schema_from_schema(string schema_file_name)
 
     int row_length_sb = 5;
     fseek(file, row_length_sb, SEEK_SET);
-    if (fread(&schema_of_schema.total_row_len_inbytes, 8, 1, file) != 1) return {};
+    if (fread(&schema_of_schema.total_row_len_inbytes, sizeof(size_t), 1, file) != 1) return {};
 
     // READING TABLE NAME 
 
@@ -127,13 +127,11 @@ schema_t get_schema_from_schema(string schema_file_name)
         col_item.col_id = i; // col_id
 
         fseek(file, col_data_sb, SEEK_SET);
-         if(fread(&col_item.is_primary_key, sizeof(col_item.is_primary_key), 1, file) != 1) return {}; // is_primary_key
-
-         if(fread(&col_item.data_type, sizeof(col_item.data_type), 1, file) != 1) return {}; // data_type
-         if(fread(&col_item.is_string, sizeof(col_item.is_string), 1, file) != 1) return {}; // is_string
-
-         if(fread(&col_item.max_str_len, sizeof(col_item.max_str_len), 1, file) != 1) return {}; // max_str_len
-
+         if(fread(&col_item.is_primary_key, sizeof(bool), 1, file) != 1) return {}; // is_primary_key
+         if(fread(&col_item.data_type, sizeof(unsigned char), 1, file) != 1) return {}; // data_type
+         if(fread(&col_item.is_string, sizeof(bool), 1, file) != 1) return {}; // is_string
+         if(fread(&col_item.max_str_len, sizeof(size_t), 1, file) != 1) return {}; // max_str_len
+         
          int col_name_sb = th_bytes + (schema_of_schema.num_cols * 11) + (schema_of_schema.num_cols * 8) + 255;
 
          fseek(file, (col_name_sb + (i * MAX_COL_LEN)), SEEK_SET);
