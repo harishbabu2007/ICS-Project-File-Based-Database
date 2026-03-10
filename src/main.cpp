@@ -2,10 +2,10 @@
 #include"utils/logging.h"
 #include"engine/TableCreate.h"
 #include"engine/TableWrite.h"
-#include"interpreter/interpreter.h"
 #include"engine/TableRead.h"
 #include"engine/TableModify.h"
 #include"engine/TableDelete.h"
+#include "interpreter/interpreter.h"
 
 void sample_testing(){
     logger("Test info\n", LOG_INFO);
@@ -168,6 +168,17 @@ void testing_modify()
     cell_data_modify(test_schema_of_schema, after, 1, 2);
 }
 
+void testing_modify()
+{
+    schema_t test_schema_of_schema = get_schema_from_schema("Students__schema_data.bin");
+
+    cell_data_t after = {
+        .cell_data_type = STRING,
+        .cell_data = make_shared<string>("b25me1067")
+    };
+    cell_data_modify(test_schema_of_schema, after, 2, 1);
+}
+
 void testing_table_delete(){
     schema_t table_schema = get_schema_from_schema("Students__schema_data.bin");
 
@@ -180,8 +191,10 @@ void testing_table_delete(){
 
 int main(){
     // testing_engine();
-    testing_read();
+    // testing_read();
     // sample_testing();
     // testing_modify();
+    vector<string> s=tokenize("Hello world");
+    cout<<s[0];
     return 0;
 }
