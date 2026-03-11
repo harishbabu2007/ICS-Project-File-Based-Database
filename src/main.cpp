@@ -210,19 +210,19 @@ int main(){
     // for(auto i=s.begin();i<s.end();i++){
     //     cout<<(*i)<<endl;
     // }
-    create_table(tokenize("CREATE TABLE Student(ID INT, ROLL_NO STRING PRIMARY_KEY(10), Name STRING(20),Department STRING(30) );"));
+    // create_table(tokenize("CREATE TABLE Student(ID INT, ROLL_NO STRING PRIMARY_KEY(10), Name STRING(20),Department STRING(20) );"));
     // insert_into_table(tokenize("INSERT INTO Student (1,b25ee1009,Ashhar);"));
 
-insert_into_table(tokenize(
-"INSERT INTO Student VALUES (1,b25ee1009,Ashhar,Electrical),(2,b25bb1007,Harish Babu,Bio);"));
-// insert_into_table(tokenize("INSERT INTO Student VALUES(0,b25ee1009,Ashhar,Electrical);"));
+// insert_into_table(tokenize(
+// "INSERT INTO Student VALUES (1,b25ee1009,Ashhar,Electrical),(2,b25bb1007,Harish Babu,Bio);"));
+// insert_into_table(tokenize("INSERT INTO Student VALUES(0,'b25ee1009','Ashhar','Electrical'),(1,'b25bb1009','Harish Babu','Bio');"));
 
-read_table(tokenize("SELECT * FROM Student;"));
+read_table(tokenize("SELECT ID,Name FROM Student;"));
     // cout<<is_identifier("PEROSN_ID");
     // read_table(tokenize("SELECT ID,NAME FROM STUDENTS;"));
-    // vector<string> tokens=tokenize("H(255)");
+    // vector<string> tokens=tokenize("'Hello John' my name is");
     // for(auto i=tokens.begin();i<tokens.end();i++){
     //     cout<<*i<<endl;
     // }
-    return 0;
+    // return 0;
 }
