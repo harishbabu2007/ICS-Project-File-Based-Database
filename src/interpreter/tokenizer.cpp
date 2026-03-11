@@ -1,30 +1,68 @@
 #include "interpreter/interpreter.h"
 
-vector<string> tokenize(const string& s) {
+vector<string> tokenize(const string& s)
+{
     vector<string> tokens;
-    string x="";
-    int length=s.size();
-    for(int i=0;i<length;i++){
-        char c=s[i];
-        if(isspace(c)){
-            if(!x.empty()){
+    string x = "";
+    bool in_quotes = false;
+    char quote_char = 0;
+
+    for (size_t i = 0; i < s.size(); i++)
+    {
+        char c = s[i];
+
+        if ((c == '"' || c == '\'') && !in_quotes)
+        {
+            if (!x.empty())
+            {
                 tokens.push_back(x);
-                x="";
+                x = "";
             }
+
+            in_quotes = true;
+            quote_char = c;
             continue;
         }
-        else if((c==',')||(c=='(')||(c==')')||(c==';')||(c=='=')){
-                if(!x.empty()){
-                tokens.push_back(x);
-                x="";
-            }
-             tokens.push_back(string(1,c));
+
+        if (in_quotes && c == quote_char)
+        {
+            tokens.push_back(x);
+            x = "";
+            in_quotes = false;
+            continue;
         }
-        else{
-            x+=c;
+
+        if (in_quotes)
+        {
+            x += c;
+            continue;
+        }
+
+        if (isspace(c))
+        {
+            if (!x.empty())
+            {
+                tokens.push_back(x);
+                x = "";
+            }
+        }
+        else if (c == ',' || c == '(' || c == ')' || c == ';' || c == '=')
+        {
+            if (!x.empty())
+            {
+                tokens.push_back(x);
+                x = "";
+            }
+            tokens.push_back(string(1, c));
+        }
+        else
+        {
+            x += c;
         }
     }
-       if (!x.empty())
+
+    if (!x.empty())
         tokens.push_back(x);
+
     return tokens;
 }
