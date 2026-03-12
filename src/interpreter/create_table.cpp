@@ -15,8 +15,7 @@ void create_table(vector<string> tokens)
         {"BOOLEAN", BOOLEAN},
         {"FLOATING_POINT", FLOATING_POINT},
         {"DOUBLE_FLOATING_POINT", DOUBLE_FLOATING_POINT},
-        {"UNSIGNED_CHAR", UNSIGNED_CHAR},
-        {"NULL_TYPE", NULL_TYPE}};
+        {"UNSIGNED_CHAR", UNSIGNED_CHAR}};
 
     for (size_t i = 0; i < tokens.size(); i++)
     {
@@ -70,57 +69,16 @@ void create_table(vector<string> tokens)
     else
         logger("Error in creating schema!\n", LOG_ERROR);
     // checking
-    // string table=tokens[2];
-    // schema_t table_schema = get_schema_from_schema(table+"__schema_data.bin");
-    // for (size_t i = 0; i < table_schema.num_cols; i++)
-    // {
-    //     cout << table_schema.column_data[i].is_primary_key << " ";
-    //     cout << (int)table_schema.column_data[i].col_id << " ";
-    //     cout << table_schema.column_data[i].data_type << " ";
-    //     cout << table_schema.column_data[i].col_name << " ";
-    //     cout << table_schema.column_data[i].is_string << " ";
-    //     cout << table_schema.column_data[i].max_str_len << " ";
-    //     cout << endl;
-    // }
-
-    // Make sure inserted data matches number of columns
-    // if (new_schema.num_cols < 3)
-    // {
-    //     logger("Not enough columns to insert test data\n", LOG_ERROR);
-    //     return;
-    // }
-
-    // vector<row_data_t> data_to_insert1 = {
-    //     {0, make_shared<int>(0)},
-    //     {1, make_shared<string>("b25ee1009")},
-    //     {2, make_shared<string>("Ashhar Ansari")},
-    //     {3, make_shared<string>("Electrical Engineering")}};
-
-    // vector<row_data_t> data_to_insert_2 = {
-    //     {0, make_shared<int>(1)},
-    //     {1, make_shared<string>("b25ee1001")},
-    //     {2, make_shared<string>("Abhishek Reddy")},
-    //     {3, make_shared<string>("Computer Science")}
-
-    // };
-
-    // vector<row_data_t> data_to_insert_3 = {
-    //     {0, make_shared<int>(2)},
-    //     {1, make_shared<string>("b25bb1002")},
-    //     {2, make_shared<string>("Harish Babu Balaji")},
-    //     {3, make_shared<string>("Bioengineering")}};
-    // vector<row_data_t> data_to_insert_4 = {
-    //     {0, make_shared<int>(3)},
-    //     {1, make_shared<string>("b25me1002")},
-    //     {2, make_shared<string>("Rahul")},
-    //     {3, make_shared<string>("Mechanical")}};
-    // int res1 = append_record_to_table(new_schema, data_to_insert1);
-    // int res2 = append_record_to_table(new_schema, data_to_insert_2);
-    // int res3 = append_record_to_table(new_schema, data_to_insert_3);
-    // int res4 = append_record_to_table(new_schema, data_to_insert_4);
-    // if (res1 == 0 && res2 == 0 && res3 == 0 && res4 == 0)
-    //     logger("Successfully Written Data\n", LOG_SUCCESS);
-    // else
-    //     logger("Error in writing data!\n", LOG_ERROR);
-    // // }
+    string table=tokens[2];
+    schema_t table_schema = get_schema_from_schema(table+"__schema_data.bin");
+    for (size_t i = 0; i < table_schema.num_cols; i++)
+    {
+        cout << table_schema.column_data[i].is_primary_key << " ";
+        cout << (int)table_schema.column_data[i].col_id << " ";
+        cout << (int)table_schema.column_data[i].data_type << " ";
+        cout << table_schema.column_data[i].col_name << " ";
+        cout << table_schema.column_data[i].is_string << " ";
+        cout << table_schema.column_data[i].max_str_len << " ";
+        cout << endl;
+    }
 }

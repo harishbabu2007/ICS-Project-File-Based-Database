@@ -55,5 +55,3 @@ size_t get_size_data_exp_string(col_data_type_t data_type){
             return 0;
     }
 }
-
-

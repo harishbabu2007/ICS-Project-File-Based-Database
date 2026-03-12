@@ -50,6 +50,12 @@ void read_table(vector<string> tokens)
     schema_t table_schema =
         get_schema_from_schema(table_name + "__schema_data.bin");
 
+    // ensure schema was actually loaded; if num_cols is zero we either failed or table is empty
+    if (table_schema.num_cols == 0) {
+        logger("Failed to load schema or table has no columns\n", LOG_ERROR);
+        return;
+    }
+
     // WHERE detection
     int where_pos = -1;
 
@@ -131,14 +137,4 @@ void read_table(vector<string> tokens)
     };
 
     log_table(&output_table);
-    // printing data type
-    // for (size_t i = 0; i < table_schema.num_cols; i++)
-    // {
-    //     cout << table_schema.column_data[i].is_primary_key<< "\n";
-    //     cout << table_schema.column_data[i].col_id<< "\n";
-    //     cout << table_schema.column_data[i].data_type << "\n";
-    //     cout << table_schema.column_data[i].col_name<< "\n";
-    //     cout << table_schema.column_data[i].is_string << "\n";
-    //     cout << table_schema.column_data[i].max_str_len<< "\n";
-    // }
 }

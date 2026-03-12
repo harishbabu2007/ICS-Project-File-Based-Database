@@ -39,6 +39,14 @@ cell_data_t get_table_cell_data(int row, int col, schema_t schema_of_schema)
     }
 
 
+    // if the column itself is defined as NULL_TYPE there is no data to read
+    // if (cellData.cell_data_type == NULL_TYPE) {
+    //     cellData.cell_data = nullptr;
+    //     fclose(file);
+    //     fclose(fileTable);
+    //     return cellData;
+    // }
+
     // getting the size of the data type
     size_t col_size;  // MUST be known
 
