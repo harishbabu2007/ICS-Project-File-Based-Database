@@ -212,17 +212,22 @@ int main(){
     // }
     // create_table(tokenize("CREATE TABLE Student(ID INT, ROLL_NO STRING PRIMARY_KEY(10), Name STRING(20),Department STRING(20) );"));
     // insert_into_table(tokenize("INSERT INTO Student (1,b25ee1009,Ashhar);"));
-
+//  create_table(tokenize("CREATE TABLE Test(ID NULL_TYPE);"));
 // insert_into_table(tokenize(
-// "INSERT INTO Student VALUES (1,b25ee1009,Ashhar,Electrical),(2,b25bb1007,Harish Babu,Bio);"));
-// insert_into_table(tokenize("INSERT INTO Student VALUES(0,'b25ee1009','Ashhar','Electrical'),(1,'b25bb1009','Harish Babu','Bio');"));
+// "INSERT INTO Test VALUES ();"));
+delete_row("Student",0);
+// insert_into_table(tokenize("INSERT INTO Student VALUES(0,NULL,'Ashhar','Electrical'),(1,'b25bb1009',NULL,'Bio');"));
 
-read_table(tokenize("SELECT ID,Name FROM Student;"));
+// show contents after insert to verify NULL handling
+read_table(tokenize("SELECT * FROM Student;"));
+// delete_row("Student",0);
+// read_table(tokenize("SELECT * FROM Student;"));
     // cout<<is_identifier("PEROSN_ID");
     // read_table(tokenize("SELECT ID,NAME FROM STUDENTS;"));
-    // vector<string> tokens=tokenize("'Hello John' my name is");
+    // vector<string> tokens=tokenize("'Hello John' my name is 20.89");
+    // vector<string> tokens=tokenize("INSERT INTO Student VALUES(0,NULL,'Ashhar')");
     // for(auto i=tokens.begin();i<tokens.end();i++){
-    //     cout<<*i<<endl;
+    //     cout<<*i<<"";
     // }
-    // return 0;
+    return 0;
 }

@@ -1,9 +1,10 @@
 #include "engine/TableDelete.h"
-
-
+#include "engine/TableWrite.h"     
+#include "utils/logging.h"
+#include <vector>
 
 int delete_row_from_table(int row, schema_t &table_schema) {
-    // check whether we can actually proceed with deletion
+    // ensure valid row index
     if (row >= table_schema.num_rows) return -1;
 
     // source file... i.e the before deletion table data
@@ -24,16 +25,17 @@ int delete_row_from_table(int row, schema_t &table_schema) {
 
 
     long record_size = table_schema.total_row_len_inbytes;
-    unsigned char buffer[record_size]; // buffer to store current read
+    std::vector<unsigned char> buffer(record_size);
 
     // reading from src and writing to temp
-    for (int i=0; i<table_schema.num_rows; i++){
-        fseek(src_table_data_file, i*record_size, SEEK_SET); 
+    for (int i = 0; i < table_schema.num_rows; i++) {
+        fseek(src_table_data_file, i * record_size, SEEK_SET);
 
-        if (i!=row && fread(buffer, record_size, 1, src_table_data_file) == 1){
-            if (fwrite(buffer, record_size, 1, temp_table_data_file) != 1){
+        if (i != row && fread(buffer.data(), record_size, 1, src_table_data_file) == 1) {
+            if (fwrite(buffer.data(), record_size, 1, temp_table_data_file) != 1) {
                 perror("fwrite failed to temp file in delete");
-                fclose(src_table_data_file); fclose(temp_table_data_file);
+                fclose(src_table_data_file);
+                fclose(temp_table_data_file);
                 remove(temp_table_data_file_name.c_str());
                 return -1;
             }
@@ -51,12 +53,17 @@ int delete_row_from_table(int row, schema_t &table_schema) {
     }
 
     // renaming the temp file to become the new table data
-    if (rename(temp_table_data_file_name.c_str(), src_table_data_file_name.c_str()) != 0){
+    if (rename(temp_table_data_file_name.c_str(), src_table_data_file_name.c_str()) != 0) {
         perror("Error Renaming temp file to original file");
         return -1;
     }
 
-    table_schema.num_rows -= 1;
+    // decrement count on-disk and in-memory through helper
+    // `increment_num_rows` already adjusts the passed schema object, so we
+    // should not subtract manually here or else the count will drop twice.
+    if (increment_num_rows(table_schema, -1) != 0) {
+        logger("Warning: failed to update schema num_rows on disk\n", LOG_WARNING);
+    }
 
     return 0;
 }
