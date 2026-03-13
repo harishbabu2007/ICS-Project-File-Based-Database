@@ -83,9 +83,6 @@ int append_record_to_table(schema_t &table_schema, vector<row_data_t> data) {
                     fwrite(isNull ? &zero : info, sizeof(unsigned char), 1, table_file);
                     break;
                 }
-                // case NULL_TYPE:
-                //     // column has zero width; nothing to write
-                //     break;
                 default:
                     break;
             }

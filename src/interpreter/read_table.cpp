@@ -26,9 +26,7 @@ string cell_to_string(cell_data_t cellData)
 
     case STRING:
         return string(static_cast<char *>(cellData.cell_data.get()));
-
-    case NULL_TYPE:
-        return "NULL";
+        
     default:
         throw runtime_error("Unknown cell data type");
     }
