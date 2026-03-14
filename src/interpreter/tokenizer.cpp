@@ -11,7 +11,7 @@ vector<string> tokenize(const string& s)
     {
         char c = s[i];
 
-        if ((c == '"' || c == '\'') && !in_quotes)
+        if ((c == '\'') && !in_quotes)
         {
             if (!x.empty())
             {
@@ -46,7 +46,7 @@ vector<string> tokenize(const string& s)
                 x = "";
             }
         }
-        else if (c == ',' || c == '(' || c == ')' || c == ';' || c == '=')
+        else if (c == ',' || c == '(' || c == ')' || c == ';' || c == '='|| c=='-')
         {
             if (!x.empty())
             {
