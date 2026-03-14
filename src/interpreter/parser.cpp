@@ -86,6 +86,14 @@ void parser() {
             }
         }
 
+        else if (lower_tok[0] == "delete" && lower_tok[l-3] == "from" && lower_tok[l-1] == ";" && lower_tok[l-4] == ")" && lower_tok[1] == "(") {
+            delete_row(tokens);
+        }
+
+        else if (lower_tok[0] == "set" && lower_tok[2] == "=" && lower_tok[4] == "where" && lower_tok[6] == "=" && lower_tok[8] == "from" && lower_tok[10] == ";") {
+            //fxn will be defined soon...
+        }
+
         else {
             printf("Error: Check your syntax! \n");
         }
