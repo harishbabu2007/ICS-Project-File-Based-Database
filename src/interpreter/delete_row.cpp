@@ -6,7 +6,8 @@ void delete_row(vector<string> tokens)
 {
     int from_pos=-1;
     for(size_t i=0;i<tokens.size();i++){
-        if(tokens[i]=="FROM"){
+        string from="FROM";
+        if(strcasecmp(tokens[i].c_str(),from.c_str())==0){
           from_pos=i;
           break;
         }
