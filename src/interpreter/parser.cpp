@@ -21,8 +21,8 @@ void parser() {
 
         if (lower_tok[0] == "create" && lower_tok[1] == "table" && tokens[l-1] == ";" && tokens[3] == "(" && tokens[l-2] == ")") {
             int pk = 0;
-            for (int i = 6; i<l-3; i++) {
-                if (lower_tok[i] == "primary" && lower_tok[i+1] == "key") {
+            for (int i = 6; i<l-2; i++) {
+                if (lower_tok[i] == "primary_key") {
                     pk = 1;
                     break;
                 }
@@ -41,8 +41,8 @@ void parser() {
             }
             
             else if (flag == 1) {
-                printf("Error: Attempt to insert to name column after Keyword! \n");
-                printf("Keywords: \"CREATE, TABLE, INSERT, INTO, VALUES, SELECT, FROM, WHERE, DELETE, SET, ;\" \n");
+                printf("Error: Attempt to insert to name column after Keyword or \';\'! \n");
+                printf("Keywords: \"CREATE, TABLE, INSERT, INTO, VALUES, SELECT, FROM, WHERE, DELETE, SET\" \n");
             }
 
             else {
@@ -90,8 +90,8 @@ void parser() {
             delete_row(tokens);
         }
 
-        else if (lower_tok[0] == "set" && lower_tok[2] == "=" && lower_tok[4] == "where" && lower_tok[6] == "=" && lower_tok[8] == "from" && lower_tok[10] == ";") {
-            //fxn will be defined soon...
+        else if (lower_tok[0] == "update" && lower_tok[2] == "set" && lower_tok[4] == "=" && lower_tok[6] == "where" && lower_tok[8] == "=" && lower_tok[10] == ";") {
+            modify_row(tokens);
         }
 
         else {

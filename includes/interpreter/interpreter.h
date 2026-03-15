@@ -11,5 +11,6 @@ void create_table(vector<string>tokens);
 void insert_into_table(vector<string> tokens);
 void read_table(vector<string> tokens);
 void delete_row(vector<string> tokens);
+void modify_row(vector<string> tokens);
 
 #endif
