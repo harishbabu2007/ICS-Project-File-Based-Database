@@ -22,6 +22,11 @@ void insert_into_table(vector<string> tokens)
             for (size_t i = 0; i < num_cols; i++)
             {
                 string value = *j;
+                if(value=="'"){
+                  j++;
+                  value=*j;
+                }
+
                 if (value == "NULL") {
                     // represent null cell with nullptr
                     data_to_insert.push_back(
@@ -103,7 +108,7 @@ void insert_into_table(vector<string> tokens)
 
                 j++; // move to next token
 
-                if (*j == ",") // skip comma between values
+                if (*j == ","||*j=="'") // skip comma between values
                     j++;
             }
 
