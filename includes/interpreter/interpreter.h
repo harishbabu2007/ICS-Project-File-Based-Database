@@ -3,6 +3,7 @@
 
 #include <bits/stdc++.h>
 using namespace std;
+#include <filesystem>
 
 vector<string> tokenize(const string& s);
 bool is_identifier(const string& s);
@@ -12,5 +13,7 @@ void insert_into_table(vector<string> tokens);
 void read_table(vector<string> tokens);
 void delete_row(vector<string> tokens);
 void modify_row(vector<string> tokens);
+void parser();
+void display_tables();
 
 #endif
