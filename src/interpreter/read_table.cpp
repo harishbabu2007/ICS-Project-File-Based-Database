@@ -38,7 +38,8 @@ void read_table(vector<string> tokens)
 
     for (size_t i = 0; i < tokens.size(); i++)
     {
-        if (tokens[i] == "FROM")
+        string from="FROM";
+        if (strcasecmp(tokens[i].c_str(),from.c_str())==0)
         {
             table_name = tokens[i + 1];
             break;
@@ -59,7 +60,8 @@ void read_table(vector<string> tokens)
 
     for (size_t i = 0; i < tokens.size(); i++)
     {
-        if (tokens[i] == "WHERE")
+        string where="WHERE";
+        if (strcasecmp(tokens[i].c_str(),where.c_str())==0)
         {
             where_pos = i;
             break;
