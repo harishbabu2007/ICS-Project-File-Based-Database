@@ -12,5 +12,7 @@ void insert_into_table(vector<string> tokens);
 void read_table(vector<string> tokens);
 void delete_row(vector<string> tokens);
 void modify_row(vector<string> tokens);
+void parser();
+void string_check (vector<string> tokens);
 
 #endif

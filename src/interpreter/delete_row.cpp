@@ -14,8 +14,7 @@ void delete_row(vector<string> tokens)
     }
     string table_name=tokens[from_pos+1];
     schema_t schema = get_schema_from_schema(table_name + "__schema_data.bin");
-    if (schema.num_cols == 0)
-    {
+     if(schema.num_cols==0){
         logger("Cannot delete row: schema load failed or table does not exist\n", LOG_ERROR);
         return;
     }

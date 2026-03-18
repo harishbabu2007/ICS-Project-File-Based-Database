@@ -49,9 +49,9 @@ void read_table(vector<string> tokens)
     schema_t table_schema =
         get_schema_from_schema(table_name + "__schema_data.bin");
 
-    // ensure schema was actually loaded; if num_cols is zero we either failed or table is empty
+    // ensure schema was actually loaded; if num_cols is zero file does not exist and we terminate
     if (table_schema.num_cols == 0) {
-        logger("Failed to load schema or table has no columns\n", LOG_ERROR);
+        logger("Cannot read table: schema load failed or table does not exist\n", LOG_ERROR);
         return;
     }
 

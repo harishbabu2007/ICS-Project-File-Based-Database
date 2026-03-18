@@ -98,4 +98,3 @@ int append_record_to_table(schema_t &table_schema, vector<row_data_t> data) {
     // update num rows in schema and return that status code
     return increment_num_rows(table_schema, 1);
 }
-
