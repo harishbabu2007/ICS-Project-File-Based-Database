@@ -6,9 +6,11 @@ void parser() {
         printf("~$ ");
         string query;
         getline(cin, query);
+        
         vector<string> tokens = tokenize(query);
         vector<string> lower_tok;
         int l = tokens.size();
+
         for (int i = 0; i<l; i++) {
             string s = tokens[i];
             string lower = "";
@@ -21,8 +23,8 @@ void parser() {
 
         if (lower_tok[0] == "create" && lower_tok[1] == "table" && tokens[l-1] == ";" && tokens[3] == "(" && tokens[l-2] == ")") {
             int pk = 0;
-            for (int i = 6; i<l-2; i++) {
-                if (lower_tok[i] == "primary_key") {
+            for (int i = 6; i<l-3; i++) {
+                if (lower_tok[i] == "primary" && lower_tok[i+1] == "key") {
                     pk = 1;
                     break;
                 }
@@ -92,6 +94,10 @@ void parser() {
 
         else if (lower_tok[0] == "update" && lower_tok[2] == "set" && lower_tok[4] == "=" && lower_tok[6] == "where" && lower_tok[8] == "=" && lower_tok[10] == ";") {
             modify_row(tokens);
+        }
+
+        else if (lower_tok[0] == "display" && lower_tok[1] == "tables" && lower_tok[2] == ";" && lower_tok.size() == 3) {
+            display_tables();
         }
 
         else {
