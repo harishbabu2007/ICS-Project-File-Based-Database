@@ -6,9 +6,11 @@ void parser() {
         printf("~$ ");
         string query;
         getline(cin, query);
+        
         vector<string> tokens = tokenize(query);
         vector<string> lower_tok;
         int l = tokens.size();
+
         for (int i = 0; i<l; i++) {
             string s = tokens[i];
             string lower = "";
