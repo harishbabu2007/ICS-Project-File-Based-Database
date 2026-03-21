@@ -16,4 +16,5 @@ void modify_row(vector<string> tokens);
 void parser();
 void display_tables();
 
+void check_createTable(vector<string> tokens, vector<string> lower_tok);
 #endif

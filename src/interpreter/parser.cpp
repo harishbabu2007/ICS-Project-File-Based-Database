@@ -22,34 +22,7 @@ void parser() {
         }
 
         if (lower_tok[0] == "create" && lower_tok[1] == "table" && tokens[l-1] == ";" && tokens[3] == "(" && tokens[l-2] == ")") {
-            int pk = 0;
-            for (int i = 6; i<l-3; i++) {
-                if (lower_tok[i] == "primary" && lower_tok[i+1] == "key") {
-                    pk = 1;
-                    break;
-                }
-            }
-            
-            int flag = 0;
-            for (int i = 4; i<l-2; i++) {
-                if (lower_tok[i] == "create" || lower_tok[i] == "table" || lower_tok[i] == ";" || lower_tok[i] == "insert" || lower_tok[i] == "into" || lower_tok[i] == "values" || lower_tok[i] == "select" || lower_tok[i] == "from" || lower_tok[i] == "where" || lower_tok[i] == "delete" || lower_tok[i] == "set") {
-                    flag = 1;
-                    break;
-                }
-            }
-
-            if (pk == 0) {
-                printf("Error: PRIMARY KEY not found! \n");
-            }
-            
-            else if (flag == 1) {
-                printf("Error: Attempt to insert to name column after Keyword or \';\'! \n");
-                printf("Keywords: \"CREATE, TABLE, INSERT, INTO, VALUES, SELECT, FROM, WHERE, DELETE, SET\" \n");
-            }
-
-            else {
-                create_table(tokens);
-            }
+            check_createTable(tokens, lower_tok);
         }
         
         else if (lower_tok[0] == "insert" && lower_tok[1] == "into" && lower_tok[3] == "values" && tokens[4] == "(" && tokens[l-2] == ")" && tokens[l-1] == ";") {
