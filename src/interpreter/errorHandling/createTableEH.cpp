@@ -9,6 +9,12 @@ void check_createTable(vector<string> tokens, vector<string> lower_tok) {
     int flag = 0;
     //checking for uniqueness of table name
     string table_name = tokens[2];
+
+    if (!is_valid_table_name(table_name)) {
+        logger("Not a valid table name, check documentation for valid table names", LOG_ERROR);
+        return;
+    }
+
     int tableExists = 0;
     vector<string> tablenames;
     namespace fs = filesystem;

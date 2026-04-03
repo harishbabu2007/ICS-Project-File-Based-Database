@@ -41,8 +41,7 @@ void check_insertRow(vector<string> tokens, vector<string> lower_tok) {
             row.clear();
         } else {
             if (tokens[iter] == "\'") {
-                row.push_back("\'" + tokens[iter+1] + "\'");
-                iter += 2;
+                row.push_back(tokens[iter+1]);
                 continue;
             } else {
                 row.push_back(tokens[iter]);
@@ -353,14 +352,11 @@ void check_insertRow(vector<string> tokens, vector<string> lower_tok) {
             }
         }
     }
-    for (size_t it = 0; it < primKeys.size(); it++) {
-        printf("primKey: %s\n", primKeys[it].c_str());
-    }
 
     for (int i = 5; i<l-2; i++) {
-        if (lower_tok[i] == "create" || lower_tok[i] == "table" || lower_tok[i] == ";" || lower_tok[i] == "insert" || lower_tok[i] == "into" || lower_tok[i] == "values" || lower_tok[i] == "select" || lower_tok[i] == "from" || lower_tok[i] == "where" || lower_tok[i] == "delete" || lower_tok[i] == "set" || lower_tok[i] == "int" || lower_tok[i] == "unsigned_int" || lower_tok[i] == "boolean" || lower_tok[i] == "floating_point" || lower_tok[i] == "double_floating_point" || lower_tok[i] == "unsigned_char" || lower_tok[i] == "string" || lower_tok[i] == "null_type") {
-        flag = 1;
-        break;
+        if (lower_tok[i] == "create" || lower_tok[i] == "table" || lower_tok[i] == ";" || lower_tok[i] == "insert" || lower_tok[i] == "into" || lower_tok[i] == "values" || lower_tok[i] == "select" || lower_tok[i] == "from" || lower_tok[i] == "where" || lower_tok[i] == "delete" || lower_tok[i] == "set") {
+            flag = 1;
+            break;
         }
     }
 
