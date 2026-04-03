@@ -41,9 +41,18 @@ vector<string> tokenize(const string &s)
                 tokens.push_back(x);
                 x = "";
             }
-            tokens.push_back("'");
+            x+=c;
             in_quotes = true;
             quote_char = c;
+            continue;
+        }
+
+        if (in_quotes && c == quote_char)
+        {
+            x+=c;
+            tokens.push_back(x);
+            x = "";
+            in_quotes = false;
             continue;
         }
 
