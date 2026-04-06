@@ -63,9 +63,9 @@ void parser() {
             check_deleteRow(tokens);
         }
 
-        // else if (lower_tok[0] == "update" && lower_tok[2] == "set" && lower_tok[4] == "=" && lower_tok[6] == "where" && lower_tok[8] == "=" && lower_tok[10] == ";") {
-        //     check_modifyRow(tokens, lower_tok);
-        // }
+        else if (lower_tok[0] == "update" && lower_tok[2] == "set" && lower_tok[l-5] == "where" && lower_tok[l-3] == "=" && lower_tok[l-1] == ";") {
+            check_modifyRow(tokens, lower_tok);
+        }
 
         else if (lower_tok[0] == "display" && lower_tok[1] == "tables" && lower_tok[2] == ";" && lower_tok.size() == 3) {
             display_tables();
