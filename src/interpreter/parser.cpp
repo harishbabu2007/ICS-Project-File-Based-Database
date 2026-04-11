@@ -1,7 +1,24 @@
 #include "interpreter/interpreter.h"
 
 void parser() {
-    printf("Welcome to our interpreter!!!\n");
+    cout << "Welcome to our interpreter!!!" << endl;
+    cout << "A project by Abhishek Reddy N, Ashhar Bashar Ansari, Harish Babu Balaji and Rahul Shreevatsavan R V" << endl;
+
+    string ICS = R"(
+  _____   _____   _____ 
+ |_   _| / ____| / ____|
+   | |  | |     | (___  
+   | |  | |      \___ \
+  _| |_ | |____  ____) |
+ |_____| \_____||_____/ 
+    )";
+
+    cout << ICS << endl;
+    cout << "======================================================" << endl;
+    cout << " Database Command Line Interface v1.0.0" << endl;
+    cout << " Type 'help' for available commands or 'exit' to quit" << endl;
+    cout << "======================================================" << endl;
+
     while (true) {
         printf("~$ ");
         string query;
@@ -20,11 +37,22 @@ void parser() {
             lower_tok.push_back(s);
         }
 
-        if (lower_tok[0] == "exit") {
+        if (lower_tok.size() == 1 && lower_tok[0] == "exit") {
             break;
         }
 
-        if (lower_tok[0] == "create" && lower_tok[1] == "table" && tokens[l-1] == ";" && tokens[3] == "(" && tokens[l-2] == ")") {
+        else if (lower_tok.size() == 1 && lower_tok[0] == "help") {
+            cout << "Available Commands:" << endl;
+            cout << "  CREATE TABLE ... ;  - Create a new table" << endl;
+            cout << "  INSERT INTO ... ;   - Insert a row into a table" << endl;
+            cout << "  SELECT ... ;        - Query data from a table" << endl;
+            cout << "  UPDATE ... ;        - Modify an existing row" << endl;
+            cout << "  DELETE ... ;        - Remove a row" << endl;
+            cout << "  DISPLAY TABLES ;    - List all available tables" << endl;
+            cout << "  exit                - Exit" << endl;
+        }
+
+        else if (lower_tok[0] == "create" && lower_tok[1] == "table" && tokens[l-1] == ";" && tokens[3] == "(" && tokens[l-2] == ")") {
             check_createTable(tokens, lower_tok);
         }
         
@@ -49,7 +77,7 @@ void parser() {
         }
 
         else {
-            printf("Error: Check your syntax! \n");
+            printf("Error: Invalid Command! \n");
         }
     }
     return;
