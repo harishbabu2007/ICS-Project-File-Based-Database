@@ -18,7 +18,7 @@ void parser() {
     cout << " Database Command Line Interface v1.0.0" << endl;
     cout << " Type 'help' for available commands or 'exit' to quit" << endl;
     cout << "======================================================" << endl;
-
+// for commit check
     while (true) {
         printf("~$ ");
         string query;
