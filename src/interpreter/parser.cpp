@@ -11,16 +11,6 @@ void parser() {
         vector<string> lower_tok;
         int l = tokens.size();
 
-        // for (int i = 0; i<l; i++) {
-        //     string s = tokens[i];
-        //     string lower = "";
-        //     int k = s.size();
-        //     for (int j = 0; j<k; j++) {
-        //         lower += (char) tolower((unsigned char) s[j]);
-        //     }
-        //     lower_tok.push_back(lower);
-        // }
-
         // making lower case tokens
         for (int i=0; i<l; i++){
             string s = tokens[i];
@@ -43,20 +33,7 @@ void parser() {
         }
 
         else if (lower_tok[0] == "select" && tokens[l-1] == ";") {
-            int from = 0;
-            for (int i = 2; i<l-2; i++) {
-                if (lower_tok[i] == "from") {
-                    from = 1;
-                }
-            }
-
-            if (from == 0) {
-                printf("Error: FROM not found! \n");
-            }
-
-            else {
-                read_table(tokens);
-            }
+            check_selectData(tokens, lower_tok);
         }
 
         else if (lower_tok[0] == "delete" && lower_tok[l-3] == "from" && lower_tok[l-1] == ";" && lower_tok[l-4] == ")" && lower_tok[1] == "(") {
@@ -75,4 +52,5 @@ void parser() {
             printf("Error: Check your syntax! \n");
         }
     }
+    return;
 }

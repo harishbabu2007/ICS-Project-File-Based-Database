@@ -21,5 +21,6 @@ void check_createTable(vector<string> tokens, vector<string> lower_tok);
 void check_insertRow(vector<string> tokens, vector<string> lower_tok);
 void check_deleteRow(vector<string> tokens);
 void check_modifyRow(vector<string> tokens, vector<string> lower_tok);
+void check_selectData(vector<string> tokens, vector<string> lower_tok);
 
 #endif
