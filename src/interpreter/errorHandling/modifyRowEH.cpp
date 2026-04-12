@@ -15,7 +15,6 @@ bool validate_data_type(const string &val, int type, int max_len)
         }
         else if (type == UNSIGNED_INT)
         {
-            // stoul allows negative signs by wrapping, so we reject them explicitly
             if (!val.empty() && val[0] == '-')
                 return false;
             size_t pos;
@@ -54,7 +53,7 @@ bool validate_data_type(const string &val, int type, int max_len)
     }
     catch (...)
     {
-        // Catches out_of_range or invalid_argument from stoi/stod/stoul
+        // Catches errors from stoi/stod/stoul
         return false;
     }
     return false;
@@ -118,7 +117,7 @@ bool is_value_unique(schema_t schema, int colIdx, int type, const string &val)
         }
         catch (...)
         {
-            return false; // Failsafe on corrupt memory/parsing issues
+            return false; // Catches errors from try block
         }
     }
     return true; // Value not found, meaning it is unique
@@ -129,7 +128,7 @@ void check_modifyRow(vector<string> tokens, vector<string> lower_tok)
     int l = tokens.size();
 
     // Minimum length and base syntax check
-    // UPDATE table SET col1 = val1 WHERE col = val ; (Requires at least 11 tokens)
+    // UPDATE table SET col1 = val1 WHERE col = val ; (minimum 11 tokens)
     if (l < 11)
     {
         logger("Error: Incomplete UPDATE statement. Check your syntax.\n", LOG_ERROR);

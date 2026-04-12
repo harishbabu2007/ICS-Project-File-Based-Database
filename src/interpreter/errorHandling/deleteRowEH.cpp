@@ -44,7 +44,8 @@ void check_deleteRow(vector<string> tokens)
         int l1 = str.size();
         for (int j = 0; j < l1; j++)
         {
-            if ((str[j] < '0' || str[j] > '9') && str[j] != ',' && str[j] != '-')
+            char temp = str[j];
+            if ((temp < '0' || temp > '9') && temp != ',' && temp != '-')
             {
                 errorCode = 0;
             }
@@ -53,13 +54,18 @@ void check_deleteRow(vector<string> tokens)
 
     for (int i = 2; i < l - 4; i++)
     { // keeping the counting part separate for clarity
-        if (tokens[i] == "-")
+        string str = tokens[i];
+        for (size_t it = 0; it < str.size(); it++)
         {
-            countDash += 1;
-        }
-        else if (tokens[i] == ",")
-        {
-            countComma += 1;
+            char temp = str[it];
+            if (temp == '-')
+            {
+                countDash += 1;
+            }
+            else if (temp == ',')
+            {
+                countComma += 1;
+            }
         }
     }
 
@@ -69,22 +75,33 @@ void check_deleteRow(vector<string> tokens)
 
         if (countDash == 1 && countComma == 0)
         {
-            if (tokens[2] != "-" && tokens[4] != "-")
+            string rowdIds = tokens[2];
+
+            if (rowdIds[0] != '-' && rowdIds[rowdIds.length() - 1] != '-')
             {
-                int lowerLim = stoi(tokens[2]);
-                int upperLim = stoi(tokens[4]);
-                if (l != 9)
+                string lowerLim = "";
+                string upperLim = "";
+                int dashIdx = -1;
+                for (size_t iter = 0; iter < rowdIds.size(); iter++)
                 {
-                    errorCode = 4;
+                    if (rowdIds[iter] == '-')
+                    {
+                        dashIdx = iter;
+                        break;
+                    }
                 }
-                else if ((lowerLim > tableSchema.num_rows) || (upperLim > tableSchema.num_rows) || (lowerLim > upperLim))
+                lowerLim = rowdIds.substr(0, dashIdx);
+                upperLim = rowdIds.substr(dashIdx + 1, rowdIds.length() - dashIdx - 1);
+                int lLim = stoi(lowerLim);
+                int uLim = stoi(upperLim);
+                if (lLim >= uLim || lLim >= tableSchema.num_rows || uLim >= tableSchema.num_rows)
                 {
                     errorCode = 1;
                 }
             }
             else
             {
-                errorCode = 4;
+                errorCode = 1;
             }
         }
 
@@ -103,7 +120,7 @@ void check_deleteRow(vector<string> tokens)
             }
             for (int y = 2; y < l - 4; y = y + 2)
             {
-                if (stoi(tokens[y]) > tableSchema.num_rows)
+                if (stoi(tokens[y]) >= tableSchema.num_rows)
                 {
                     errorCode = 1;
                 }
@@ -116,7 +133,7 @@ void check_deleteRow(vector<string> tokens)
             {
                 errorCode = 3;
             }
-            else if (stoi(tokens[2]) > tableSchema.num_rows)
+            else if (stoi(tokens[2]) >= tableSchema.num_rows)
             {
                 errorCode = 1;
             }
@@ -130,32 +147,32 @@ void check_deleteRow(vector<string> tokens)
 
     if (tableExists == 0)
     {
-        logger("Table does not exist! \n", LOG_ERROR);
+        logger("Error: Table does not exist! \n", LOG_ERROR);
     }
 
     else if (errorCode == 0)
     {
-        logger("Wrong syntax while specifying row id \n", LOG_ERROR);
+        logger("Error: Wrong syntax while specifying row id \n", LOG_ERROR);
     }
 
     else if (errorCode == 1)
     {
-        logger("Check id numbers \n", LOG_ERROR);
+        logger("Error: Check id numbers \n", LOG_ERROR);
     }
 
     else if (errorCode == 2)
     {
-        logger("Check your commas \n", LOG_ERROR);
+        logger("Error: Check your commas \n", LOG_ERROR);
     }
 
     else if (errorCode == 3)
     {
-        logger("Id numbers should be separated by commas \n", LOG_ERROR);
+        logger("Error: Id numbers should be separated by commas \n", LOG_ERROR);
     }
 
     else if (errorCode == 4)
     {
-        logger("Error: check your syntax \n", LOG_ERROR);
+        logger("Error: Check your syntax \n", LOG_ERROR);
     }
 
     else
