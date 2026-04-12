@@ -67,6 +67,7 @@ void parser() {
             cout << "  UPDATE ... ;        - Modify an existing row" << endl;
             cout << "  DELETE ... ;        - Remove a row" << endl;
             cout << "  DISPLAY TABLES ;    - List all available tables" << endl;
+            cout << "  DISPLAY SCHEMA ... ;- Display the schmea of existing table" << endl;
             cout << "  exit                - Exit the application" << endl;
             cout << endl;
         }
@@ -93,6 +94,10 @@ void parser() {
 
         else if (lower_tok[0] == "display" && lower_tok[1] == "tables" && lower_tok[2] == ";" && lower_tok.size() == 3) {
             display_tables();
+        }
+
+        else if (lower_tok.size() == 4 && lower_tok[0] == "display" && lower_tok[1] == "schema" && lower_tok[3] == ";") {
+            display_table_schema(tokens[2]);
         }
 
         else {
